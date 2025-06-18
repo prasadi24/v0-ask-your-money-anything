@@ -3,7 +3,18 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Coins, Activity, Brain, PieChart, TrendingUp, Calculator, Menu, X } from "lucide-react"
+import {
+  Coins,
+  Activity,
+  Brain,
+  PieChart,
+  TrendingUp,
+  Calculator,
+  Menu,
+  X,
+  Newspaper,
+  AlertTriangle,
+} from "lucide-react"
 import Link from "next/link"
 
 export function EnhancedNavigation() {
@@ -49,6 +60,25 @@ export function EnhancedNavigation() {
       description: "AI market analysis",
     },
     {
+      href: "/trading-simulator",
+      label: "Trading",
+      icon: Calculator,
+      description: "Practice trading",
+      badge: "New",
+    },
+    {
+      href: "/financial-news",
+      label: "News",
+      icon: Newspaper,
+      description: "AI-powered news analysis",
+    },
+    {
+      href: "/risk-analyzer",
+      label: "Risk Analysis",
+      icon: AlertTriangle,
+      description: "Portfolio risk assessment",
+    },
+    {
       href: "/admin",
       label: "Admin",
       icon: Calculator,
@@ -82,7 +112,9 @@ export function EnhancedNavigation() {
                       className={`ml-1 text-xs ${
                         item.badge === "Live"
                           ? "bg-green-50 text-green-700 border-green-200"
-                          : "bg-blue-50 text-blue-700 border-blue-200"
+                          : item.badge === "Popular"
+                            ? "bg-blue-50 text-blue-700 border-blue-200"
+                            : "bg-purple-50 text-purple-700 border-purple-200"
                       }`}
                     >
                       {item.badge}
@@ -116,7 +148,9 @@ export function EnhancedNavigation() {
                             className={`text-xs ${
                               item.badge === "Live"
                                 ? "bg-green-50 text-green-700 border-green-200"
-                                : "bg-blue-50 text-blue-700 border-blue-200"
+                                : item.badge === "Popular"
+                                  ? "bg-blue-50 text-blue-700 border-blue-200"
+                                  : "bg-purple-50 text-purple-700 border-purple-200"
                             }`}
                           >
                             {item.badge}
