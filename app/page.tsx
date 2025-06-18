@@ -307,8 +307,7 @@ export default function HomePage() {
               </Link>
               <Button
                 size="lg"
-                variant="outline"
-                className="text-lg px-8 py-4 h-auto border-white text-white hover:bg-white hover:text-orange-600"
+                className="text-lg px-8 py-4 h-auto bg-white text-orange-600 hover:bg-gray-100 hover:text-orange-700 border-0"
               >
                 Schedule Demo
               </Button>
