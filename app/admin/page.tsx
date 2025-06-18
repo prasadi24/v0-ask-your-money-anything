@@ -4,14 +4,17 @@ import type React from "react"
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
-import { Brain, Upload, FileText, Activity, Users, MessageSquare, TrendingUp } from "lucide-react"
+import { Brain, TrendingUp } from "lucide-react"
 import Link from "next/link"
+import { FreeUpload } from "@/components/free-upload"
+import { DocumentStats as DocumentStatsComponent } from "@/components/document-stats"
+import { DocumentManager } from "@/components/document-manager"
+import { QueryLogger } from "@/components/query-logger"
+import { SampleDocuments } from "@/components/sample-documents"
 
 interface Document {
   id: string
@@ -141,173 +144,37 @@ export default function AdminPage() {
       <div className="container mx-auto px-4 py-8">
         {/* Stats Overview */}
         <div className="grid md:grid-cols-4 gap-6 mb-8">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Documents</CardTitle>
-              <FileText className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">247</div>
-              <p className="text-xs text-muted-foreground">+12 from last month</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Active Users</CardTitle>
-              <Users className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">1,234</div>
-              <p className="text-xs text-muted-foreground">+18% from last month</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Queries Today</CardTitle>
-              <MessageSquare className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">89</div>
-              <p className="text-xs text-muted-foreground">+7% from yesterday</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">System Health</CardTitle>
-              <Activity className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-green-600">99.9%</div>
-              <p className="text-xs text-muted-foreground">Uptime</p>
-            </CardContent>
-          </Card>
+          <DocumentStatsComponent />
         </div>
 
         {/* Main Content */}
         <Tabs defaultValue="documents" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="documents">Documents</TabsTrigger>
             <TabsTrigger value="upload">Upload</TabsTrigger>
+            <TabsTrigger value="samples">Sample Data</TabsTrigger>
             <TabsTrigger value="queries">Query Logs</TabsTrigger>
             <TabsTrigger value="analytics">Analytics</TabsTrigger>
           </TabsList>
 
           {/* Documents Tab */}
           <TabsContent value="documents">
-            <Card>
-              <CardHeader>
-                <CardTitle>Document Library</CardTitle>
-                <CardDescription>Manage your financial documents and their processing status</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {mockDocuments.map((doc) => (
-                    <div key={doc.id} className="flex items-center justify-between p-4 border rounded-lg">
-                      <div className="flex items-center space-x-4">
-                        <FileText className="h-8 w-8 text-blue-600" />
-                        <div>
-                          <h3 className="font-medium">{doc.name}</h3>
-                          <p className="text-sm text-gray-600">
-                            {doc.type} • {doc.size} • Uploaded {doc.uploadDate}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        {getStatusBadge(doc.status)}
-                        <Button variant="outline" size="sm">
-                          View
-                        </Button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+            <DocumentManager />
           </TabsContent>
 
           {/* Upload Tab */}
           <TabsContent value="upload">
-            <Card>
-              <CardHeader>
-                <CardTitle>Upload Documents</CardTitle>
-                <CardDescription>Add new financial documents to the knowledge base</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="space-y-2">
-                  <Label htmlFor="file-upload">Select Document</Label>
-                  <Input
-                    id="file-upload"
-                    type="file"
-                    accept=".pdf,.doc,.docx"
-                    onChange={handleFileSelect}
-                    disabled={isUploading}
-                  />
-                  <p className="text-sm text-gray-600">Supported formats: PDF, DOC, DOCX (Max 10MB)</p>
-                </div>
+            <FreeUpload />
+          </TabsContent>
 
-                {selectedFile && (
-                  <div className="p-4 bg-blue-50 rounded-lg">
-                    <div className="flex items-center space-x-2 mb-2">
-                      <FileText className="h-4 w-4 text-blue-600" />
-                      <span className="font-medium">{selectedFile.name}</span>
-                    </div>
-                    <p className="text-sm text-gray-600">Size: {(selectedFile.size / 1024 / 1024).toFixed(2)} MB</p>
-                  </div>
-                )}
-
-                {isUploading && (
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span>Uploading...</span>
-                      <span>{uploadProgress}%</span>
-                    </div>
-                    <Progress value={uploadProgress} />
-                  </div>
-                )}
-
-                <Button onClick={handleUpload} disabled={!selectedFile || isUploading} className="w-full">
-                  <Upload className="h-4 w-4 mr-2" />
-                  {isUploading ? "Uploading..." : "Upload Document"}
-                </Button>
-              </CardContent>
-            </Card>
+          {/* Sample Data Tab */}
+          <TabsContent value="samples">
+            <SampleDocuments />
           </TabsContent>
 
           {/* Query Logs Tab */}
           <TabsContent value="queries">
-            <Card>
-              <CardHeader>
-                <CardTitle>Query Logs</CardTitle>
-                <CardDescription>Recent user questions and AI responses</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {mockQueryLogs.map((log) => (
-                    <div key={log.id} className="border rounded-lg p-4">
-                      <div className="flex justify-between items-start mb-2">
-                        <h3 className="font-medium text-blue-600">{log.question}</h3>
-                        <span className="text-xs text-gray-500">{log.timestamp}</span>
-                      </div>
-                      <p className="text-sm text-gray-700 mb-3 line-clamp-2">{log.response}</p>
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-2">
-                          <span className="text-xs text-gray-500">Sources:</span>
-                          {log.sources.map((source, index) => (
-                            <Badge key={index} variant="outline" className="text-xs">
-                              {source}
-                            </Badge>
-                          ))}
-                        </div>
-                        <span className="text-xs text-gray-500">User: {log.userId}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+            <QueryLogger />
           </TabsContent>
 
           {/* Analytics Tab */}
