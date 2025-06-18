@@ -8,14 +8,19 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { Brain, Send, User, FileText, TrendingUp, Home, IndianRupee, Coins } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
+import { Brain, Send, User, FileText, TrendingUp, Home, IndianRupee, Coins, Calculator } from "lucide-react"
 import Link from "next/link"
+import { MarketDataWidget } from "@/components/market-data-widget"
+import { FinancialCalculators } from "@/components/financial-calculators"
 
 interface Message {
   id: string
   role: "user" | "assistant"
   content: string
   sources?: string[]
+  category?: string
+  confidence?: number
   timestamp: Date
 }
 
@@ -27,6 +32,7 @@ const sampleQuestions = [
       "How did Axis Bluechip Fund perform in the last 5 years?",
       "Compare SIP vs lump sum for HDFC Top 100 Fund",
       "Which SEBI-approved mutual funds have the lowest expense ratio?",
+      "What are the tax implications of LTCG on equity mutual funds?",
     ],
   },
   {
@@ -36,6 +42,7 @@ const sampleQuestions = [
       "What are the current gold prices as per RBI data?",
       "Should I invest in Sovereign Gold Bonds or physical gold?",
       "How does gold perform during RBI rate changes?",
+      "Compare gold ETFs vs gold mutual funds",
     ],
   },
   {
@@ -45,6 +52,7 @@ const sampleQuestions = [
       "Should I invest in Amaravati real estate now?",
       "What are the property trends in Vijayawada?",
       "Compare RERA-registered projects in Hyderabad",
+      "What are the rental yields in major Indian cities?",
     ],
   },
 ]
@@ -53,6 +61,7 @@ export default function AskPage() {
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+  const [showCalculators, setShowCalculators] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -85,10 +94,23 @@ export default function AskPage() {
         role: "assistant",
         content: data.response,
         sources: data.sources,
+        category: data.category,
+        confidence: data.confidence,
         timestamp: new Date(),
       }
 
       setMessages((prev) => [...prev, assistantMessage])
+
+      // Store query log in localStorage
+      if (data.queryLog) {
+        const existingLogs = JSON.parse(localStorage.getItem("arthagpt_query_logs") || "[]")
+        existingLogs.unshift(data.queryLog)
+        localStorage.setItem("arthagpt_query_logs", JSON.stringify(existingLogs.slice(0, 100)))
+
+        // Update query count
+        const currentCount = Number.parseInt(localStorage.getItem("arthagpt_query_count") || "0")
+        localStorage.setItem("arthagpt_query_count", (currentCount + 1).toString())
+      }
     } catch (error) {
       console.error("Error:", error)
       const errorMessage: Message = {
@@ -107,6 +129,30 @@ export default function AskPage() {
     setInput(question)
   }
 
+  const getCategoryColor = (category?: string) => {
+    switch (category) {
+      case "mutual_fund":
+        return "bg-blue-100 text-blue-800"
+      case "gold":
+        return "bg-yellow-100 text-yellow-800"
+      case "real_estate":
+        return "bg-green-100 text-green-800"
+      case "insurance":
+        return "bg-purple-100 text-purple-800"
+      case "tax":
+        return "bg-orange-100 text-orange-800"
+      default:
+        return "bg-gray-100 text-gray-800"
+    }
+  }
+
+  const getConfidenceColor = (confidence?: number) => {
+    if (!confidence) return "bg-gray-100 text-gray-800"
+    if (confidence >= 80) return "bg-green-100 text-green-800"
+    if (confidence >= 60) return "bg-yellow-100 text-yellow-800"
+    return "bg-red-100 text-red-800"
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -117,6 +163,14 @@ export default function AskPage() {
             <h1 className="text-2xl font-bold text-indigo-800">ArthaGPT</h1>
           </Link>
           <nav className="flex items-center space-x-4">
+            <Button
+              variant="ghost"
+              onClick={() => setShowCalculators(!showCalculators)}
+              className="flex items-center space-x-2"
+            >
+              <Calculator className="h-4 w-4" />
+              <span>Calculators</span>
+            </Button>
             <Link href="/admin">
               <Button variant="ghost">Admin</Button>
             </Link>
@@ -125,7 +179,19 @@ export default function AskPage() {
         </div>
       </header>
 
-      <div className="container mx-auto px-4 py-8 max-w-6xl">
+      <div className="container mx-auto px-4 py-8 max-w-7xl">
+        {/* Market Data Widget */}
+        <div className="mb-6">
+          <MarketDataWidget />
+        </div>
+
+        {/* Financial Calculators */}
+        {showCalculators && (
+          <div className="mb-6">
+            <FinancialCalculators />
+          </div>
+        )}
+
         <div className="grid lg:grid-cols-4 gap-8">
           {/* Sidebar with Sample Questions */}
           <div className="lg:col-span-1">
@@ -198,23 +264,44 @@ export default function AskPage() {
                             </Avatar>
                             <div
                               className={`rounded-lg p-4 ${
-                                message.role === "user" ? "bg-navy-600 text-white" : "bg-gray-100 text-gray-900"
+                                message.role === "user" ? "bg-indigo-600 text-white" : "bg-gray-100 text-gray-900"
                               }`}
                             >
                               <p className="whitespace-pre-wrap">{message.content}</p>
-                              {message.sources && message.sources.length > 0 && (
-                                <div className="mt-3 pt-3 border-t border-gray-300">
-                                  <p className="text-sm font-medium mb-2 flex items-center">
-                                    <FileText className="h-4 w-4 mr-1" />
-                                    Sources:
-                                  </p>
-                                  <ul className="text-sm space-y-1">
-                                    {message.sources.map((source, index) => (
-                                      <li key={index} className="text-gray-600">
-                                        • {source}
-                                      </li>
-                                    ))}
-                                  </ul>
+
+                              {/* Enhanced metadata for assistant messages */}
+                              {message.role === "assistant" && (
+                                <div className="mt-3 space-y-2">
+                                  {/* Category and Confidence */}
+                                  <div className="flex items-center space-x-2">
+                                    {message.category && (
+                                      <Badge className={getCategoryColor(message.category)}>
+                                        {message.category.replace("_", " ").toUpperCase()}
+                                      </Badge>
+                                    )}
+                                    {message.confidence && (
+                                      <Badge className={getConfidenceColor(message.confidence)}>
+                                        {message.confidence}% confidence
+                                      </Badge>
+                                    )}
+                                  </div>
+
+                                  {/* Sources */}
+                                  {message.sources && message.sources.length > 0 && (
+                                    <div className="pt-3 border-t border-gray-300">
+                                      <p className="text-sm font-medium mb-2 flex items-center">
+                                        <FileText className="h-4 w-4 mr-1" />
+                                        Sources:
+                                      </p>
+                                      <ul className="text-sm space-y-1">
+                                        {message.sources.map((source, index) => (
+                                          <li key={index} className="text-gray-600">
+                                            • {source}
+                                          </li>
+                                        ))}
+                                      </ul>
+                                    </div>
+                                  )}
                                 </div>
                               )}
                             </div>
@@ -258,7 +345,11 @@ export default function AskPage() {
                     disabled={isLoading}
                     className="flex-1"
                   />
-                  <Button type="submit" disabled={isLoading || !input.trim()} className="bg-navy-800 hover:bg-navy-900">
+                  <Button
+                    type="submit"
+                    disabled={isLoading || !input.trim()}
+                    className="bg-indigo-800 hover:bg-indigo-900"
+                  >
                     <Send className="h-4 w-4" />
                   </Button>
                 </form>
