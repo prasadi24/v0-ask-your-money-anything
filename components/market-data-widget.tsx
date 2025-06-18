@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { TrendingUp, TrendingDown, IndianRupee, Activity } from "lucide-react"
+import { clientMarketAPI } from "@/lib/client-market-api"
 
 interface MarketData {
   nifty50: { value: number; change: number; changePercent: number }
@@ -24,36 +25,57 @@ export function MarketDataWidget() {
 
   // Simulate real-time updates (in production, this would connect to actual APIs)
   useEffect(() => {
-    const interval = setInterval(() => {
-      setMarketData((prev) => ({
-        nifty50: {
-          ...prev.nifty50,
-          value: prev.nifty50.value + (Math.random() - 0.5) * 20,
-          change: prev.nifty50.change + (Math.random() - 0.5) * 10,
-          changePercent: prev.nifty50.changePercent + (Math.random() - 0.5) * 0.2,
-        },
-        sensex: {
-          ...prev.sensex,
-          value: prev.sensex.value + (Math.random() - 0.5) * 100,
-          change: prev.sensex.change + (Math.random() - 0.5) * 50,
-          changePercent: prev.sensex.changePercent + (Math.random() - 0.5) * 0.2,
-        },
-        goldPrice: {
-          ...prev.goldPrice,
-          value: prev.goldPrice.value + (Math.random() - 0.5) * 100,
-          change: prev.goldPrice.change + (Math.random() - 0.5) * 50,
-          changePercent: prev.goldPrice.changePercent + (Math.random() - 0.5) * 0.3,
-        },
-        usdInr: {
-          ...prev.usdInr,
-          value: prev.usdInr.value + (Math.random() - 0.5) * 0.2,
-          change: prev.usdInr.change + (Math.random() - 0.5) * 0.1,
-          changePercent: prev.usdInr.changePercent + (Math.random() - 0.5) * 0.1,
-        },
-      }))
-      setLastUpdated(new Date())
-    }, 30000) // Update every 30 seconds
+    const fetchMarketData = async () => {
+      try {
+        const indices = await clientMarketAPI.getIndices()
+        const commodities = await clientMarketAPI.getAllCommodities()
+        const currencies = await clientMarketAPI.getCurrencyRates()
 
+        if (indices.length >= 2) {
+          setMarketData((prev) => ({
+            ...prev,
+            nifty50: {
+              value: indices.find((i) => i.symbol === "NIFTY50")?.price || prev.nifty50.value,
+              change: indices.find((i) => i.symbol === "NIFTY50")?.change || prev.nifty50.change,
+              changePercent: indices.find((i) => i.symbol === "NIFTY50")?.changePercent || prev.nifty50.changePercent,
+            },
+            sensex: {
+              value: indices.find((i) => i.symbol === "SENSEX")?.price || prev.sensex.value,
+              change: indices.find((i) => i.symbol === "SENSEX")?.change || prev.sensex.change,
+              changePercent: indices.find((i) => i.symbol === "SENSEX")?.changePercent || prev.sensex.changePercent,
+            },
+          }))
+        }
+
+        const gold = commodities.find((c) => c.commodity === "GOLD")
+        if (gold) {
+          setMarketData((prev) => ({
+            ...prev,
+            goldPrice: {
+              value: gold.price,
+              change: gold.change,
+              changePercent: gold.changePercent,
+            },
+          }))
+        }
+
+        if (currencies.USDINR) {
+          setMarketData((prev) => ({
+            ...prev,
+            usdInr: {
+              value: currencies.USDINR,
+              change: (Math.random() - 0.5) * 0.2,
+              changePercent: (((Math.random() - 0.5) * 0.2) / currencies.USDINR) * 100,
+            },
+          }))
+        }
+      } catch (error) {
+        console.error("Failed to fetch market data:", error)
+      }
+    }
+
+    fetchMarketData()
+    const interval = setInterval(fetchMarketData, 30000)
     return () => clearInterval(interval)
   }, [])
 
