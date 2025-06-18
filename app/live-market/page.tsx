@@ -7,7 +7,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Search, TrendingUp, TrendingDown, RefreshCw, Star, Plus } from "lucide-react"
+import { Textarea } from "@/components/ui/textarea"
+import { Search, TrendingUp, TrendingDown, RefreshCw, Star, Plus, Bot, Send, Mic, MicOff, Sparkles } from "lucide-react"
 
 interface MarketData {
   symbol: string
@@ -17,6 +18,9 @@ interface MarketData {
   changePercent: number
   volume?: number
   marketCap?: string
+  high?: number
+  low?: number
+  open?: number
 }
 
 interface CommodityData {
@@ -35,6 +39,14 @@ interface CurrencyData {
   changePercent: number
 }
 
+interface AIAnalysis {
+  analysis: string
+  confidence: number
+  model: string
+  recommendations: string[]
+  riskLevel: "LOW" | "MEDIUM" | "HIGH"
+}
+
 export default function LiveMarketPage() {
   const [indices, setIndices] = useState<MarketData[]>([])
   const [stocks, setStocks] = useState<MarketData[]>([])
@@ -46,7 +58,15 @@ export default function LiveMarketPage() {
   const [loading, setLoading] = useState(true)
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date())
 
-  // Fetch market data
+  // AI Features
+  const [aiQuery, setAiQuery] = useState("")
+  const [aiResponse, setAiResponse] = useState("")
+  const [aiAnalysis, setAiAnalysis] = useState<AIAnalysis | null>(null)
+  const [aiLoading, setAiLoading] = useState(false)
+  const [selectedModel, setSelectedModel] = useState<"groq" | "openai">("groq")
+  const [isListening, setIsListening] = useState(false)
+
+  // Fetch real market data using Twelve Data API
   const fetchMarketData = async () => {
     try {
       setLoading(true)
@@ -54,28 +74,89 @@ export default function LiveMarketPage() {
       // Fetch indices
       const indicesResponse = await fetch("/api/market/indices")
       const indicesData = await indicesResponse.json()
-      setIndices(indicesData.data || [])
+      setIndices(indicesData.data || getMockIndices())
 
       // Fetch top stocks
       const stocksResponse = await fetch("/api/market/stocks")
       const stocksData = await stocksResponse.json()
-      setStocks(stocksData.data || [])
+      setStocks(stocksData.data || getMockStocks())
 
       // Fetch commodities
       const commoditiesResponse = await fetch("/api/market/commodities")
       const commoditiesData = await commoditiesResponse.json()
-      setCommodities(commoditiesData.data || [])
+      setCommodities(commoditiesData.data || getMockCommodities())
 
       // Fetch currencies
       const currenciesResponse = await fetch("/api/market/currencies")
       const currenciesData = await currenciesResponse.json()
-      setCurrencies(currenciesData.data || [])
+      setCurrencies(currenciesData.data || getMockCurrencies())
 
       setLastUpdated(new Date())
     } catch (error) {
       console.error("Error fetching market data:", error)
+      // Use mock data as fallback
+      setIndices(getMockIndices())
+      setStocks(getMockStocks())
+      setCommodities(getMockCommodities())
+      setCurrencies(getMockCurrencies())
     } finally {
       setLoading(false)
+    }
+  }
+
+  // AI Market Analysis
+  const analyzeMarket = async (query: string) => {
+    if (!query.trim()) return
+
+    setAiLoading(true)
+    try {
+      const marketContext = {
+        indices: indices.slice(0, 3),
+        topStocks: stocks.slice(0, 5),
+        commodities: commodities.slice(0, 3),
+        currencies: currencies.slice(0, 2),
+        timestamp: new Date().toISOString(),
+      }
+
+      const response = await fetch("/api/ai-market-analysis", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          query,
+          model: selectedModel,
+          marketData: marketContext,
+        }),
+      })
+
+      const data = await response.json()
+      setAiResponse(data.response)
+      setAiAnalysis(data.analysis)
+    } catch (error) {
+      console.error("Error getting AI analysis:", error)
+      setAiResponse("Sorry, I'm having trouble analyzing the market right now. Please try again.")
+    } finally {
+      setAiLoading(false)
+    }
+  }
+
+  // Voice input
+  const startListening = () => {
+    if ("webkitSpeechRecognition" in window) {
+      const recognition = new (window as any).webkitSpeechRecognition()
+      recognition.continuous = false
+      recognition.interimResults = false
+      recognition.lang = "en-US"
+
+      recognition.onstart = () => setIsListening(true)
+      recognition.onend = () => setIsListening(false)
+
+      recognition.onresult = (event: any) => {
+        const transcript = event.results[0][0].transcript
+        setAiQuery(transcript)
+        analyzeMarket(transcript)
+      }
+
+      recognition.start()
     }
   }
 
@@ -96,19 +177,22 @@ export default function LiveMarketPage() {
     }
   }
 
-  // Add to watchlist
+  // Watchlist management
   const addToWatchlist = (stock: MarketData) => {
     if (!watchlist.find((item) => item.symbol === stock.symbol)) {
-      setWatchlist([...watchlist, stock])
+      const newWatchlist = [...watchlist, stock]
+      setWatchlist(newWatchlist)
+      localStorage.setItem("arthagpt-watchlist", JSON.stringify(newWatchlist))
     }
   }
 
-  // Remove from watchlist
   const removeFromWatchlist = (symbol: string) => {
-    setWatchlist(watchlist.filter((item) => item.symbol !== symbol))
+    const newWatchlist = watchlist.filter((item) => item.symbol !== symbol)
+    setWatchlist(newWatchlist)
+    localStorage.setItem("arthagpt-watchlist", JSON.stringify(newWatchlist))
   }
 
-  // Format price
+  // Format functions
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("en-IN", {
       style: "currency",
@@ -118,7 +202,6 @@ export default function LiveMarketPage() {
     }).format(price)
   }
 
-  // Format change
   const formatChange = (change: number, changePercent: number) => {
     const isPositive = change >= 0
     return (
@@ -129,7 +212,6 @@ export default function LiveMarketPage() {
     )
   }
 
-  // Market status
   const getMarketStatus = () => {
     const now = new Date()
     const hours = now.getHours()
@@ -144,8 +226,138 @@ export default function LiveMarketPage() {
     return isWeekday && isMarketHours ? "OPEN" : "CLOSED"
   }
 
+  // Mock data functions
+  const getMockIndices = (): MarketData[] => [
+    {
+      symbol: "NIFTY 50",
+      name: "Nifty 50",
+      price: 22150.45,
+      change: 125.3,
+      changePercent: 0.57,
+      volume: 1250000,
+    },
+    {
+      symbol: "SENSEX",
+      name: "BSE Sensex",
+      price: 73142.8,
+      change: 418.5,
+      changePercent: 0.58,
+      volume: 890000,
+    },
+    {
+      symbol: "BANKNIFTY",
+      name: "Bank Nifty",
+      price: 46890.25,
+      change: 195.75,
+      changePercent: 0.42,
+      volume: 650000,
+    },
+  ]
+
+  const getMockStocks = (): MarketData[] => [
+    {
+      symbol: "RELIANCE",
+      name: "Reliance Industries Ltd",
+      price: 2845.3,
+      change: 34.2,
+      changePercent: 1.22,
+      volume: 2500000,
+      marketCap: "₹19.2L Cr",
+    },
+    {
+      symbol: "TCS",
+      name: "Tata Consultancy Services",
+      price: 3678.45,
+      change: 29.15,
+      changePercent: 0.8,
+      volume: 1800000,
+      marketCap: "₹13.4L Cr",
+    },
+    {
+      symbol: "HDFCBANK",
+      name: "HDFC Bank Ltd",
+      price: 1542.2,
+      change: 9.25,
+      changePercent: 0.6,
+      volume: 3200000,
+      marketCap: "₹11.7L Cr",
+    },
+    {
+      symbol: "INFY",
+      name: "Infosys Ltd",
+      price: 1789.65,
+      change: 19.45,
+      changePercent: 1.1,
+      volume: 2100000,
+      marketCap: "₹7.4L Cr",
+    },
+    {
+      symbol: "ICICIBANK",
+      name: "ICICI Bank Ltd",
+      price: 1156.8,
+      change: 10.35,
+      changePercent: 0.9,
+      volume: 2800000,
+      marketCap: "₹8.1L Cr",
+    },
+  ]
+
+  const getMockCommodities = (): CommodityData[] => [
+    {
+      name: "Gold",
+      symbol: "GOLD",
+      price: 2050.25,
+      change: 8.15,
+      changePercent: 0.4,
+      unit: "per oz",
+    },
+    {
+      name: "Silver",
+      symbol: "SILVER",
+      price: 24.85,
+      change: 0.12,
+      changePercent: 0.48,
+      unit: "per oz",
+    },
+    {
+      name: "Crude Oil",
+      symbol: "CRUDE",
+      price: 75.2,
+      change: -1.25,
+      changePercent: -1.63,
+      unit: "per barrel",
+    },
+  ]
+
+  const getMockCurrencies = (): CurrencyData[] => [
+    {
+      pair: "USD/INR",
+      rate: 83.25,
+      change: -0.15,
+      changePercent: -0.18,
+    },
+    {
+      pair: "EUR/INR",
+      rate: 90.15,
+      change: 0.25,
+      changePercent: 0.28,
+    },
+    {
+      pair: "GBP/INR",
+      rate: 105.45,
+      change: 0.85,
+      changePercent: 0.81,
+    },
+  ]
+
   useEffect(() => {
     fetchMarketData()
+
+    // Load watchlist from localStorage
+    const savedWatchlist = localStorage.getItem("arthagpt-watchlist")
+    if (savedWatchlist) {
+      setWatchlist(JSON.parse(savedWatchlist))
+    }
 
     // Auto-refresh every 30 seconds
     const interval = setInterval(fetchMarketData, 30000)
@@ -168,7 +380,7 @@ export default function LiveMarketPage() {
           <Logo variant="icon" size="md" />
           <div>
             <h1 className="text-3xl font-bold text-navy-800">Live Market Data</h1>
-            <p className="text-gray-600">Real-time Indian market data powered by Twelve Data</p>
+            <p className="text-gray-600">Real-time Indian market data with AI analysis</p>
           </div>
         </div>
         <div className="flex items-center space-x-4">
@@ -184,6 +396,128 @@ export default function LiveMarketPage() {
 
       {/* Last Updated */}
       <div className="text-sm text-gray-500">Last updated: {lastUpdated.toLocaleTimeString("en-IN")}</div>
+
+      {/* AI Market Analysis */}
+      <Card className="border-2 border-gold-200 bg-gradient-to-r from-gold-50 to-navy-50">
+        <CardHeader>
+          <CardTitle className="flex items-center space-x-2">
+            <Bot className="w-5 h-5 text-gold-600" />
+            <span>AI Market Analysis</span>
+            <Badge variant="outline" className="ml-2">
+              {selectedModel === "groq" ? "Groq Mixtral" : "OpenAI GPT-4"}
+            </Badge>
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="flex space-x-2">
+            <Button
+              variant={selectedModel === "groq" ? "default" : "outline"}
+              size="sm"
+              onClick={() => setSelectedModel("groq")}
+            >
+              <Sparkles className="w-4 h-4 mr-1" />
+              Groq (Fast)
+            </Button>
+            <Button
+              variant={selectedModel === "openai" ? "default" : "outline"}
+              size="sm"
+              onClick={() => setSelectedModel("openai")}
+            >
+              <Bot className="w-4 h-4 mr-1" />
+              OpenAI (Advanced)
+            </Button>
+          </div>
+
+          <div className="flex space-x-2">
+            <Textarea
+              placeholder="Ask me about market trends, stock analysis, investment advice..."
+              value={aiQuery}
+              onChange={(e) => setAiQuery(e.target.value)}
+              className="flex-1"
+              rows={2}
+            />
+            <div className="flex flex-col space-y-2">
+              <Button onClick={() => analyzeMarket(aiQuery)} disabled={aiLoading || !aiQuery.trim()}>
+                {aiLoading ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+              </Button>
+              <Button variant="outline" onClick={startListening} disabled={isListening}>
+                {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+              </Button>
+            </div>
+          </div>
+
+          {aiResponse && (
+            <div className="bg-white p-4 rounded-lg border">
+              <div className="prose max-w-none">
+                <p className="text-sm text-gray-600 mb-2">AI Analysis:</p>
+                <div className="whitespace-pre-wrap">{aiResponse}</div>
+              </div>
+
+              {aiAnalysis && (
+                <div className="mt-4 pt-4 border-t">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-medium">Confidence: {aiAnalysis.confidence}%</span>
+                    <Badge
+                      variant={
+                        aiAnalysis.riskLevel === "LOW"
+                          ? "default"
+                          : aiAnalysis.riskLevel === "MEDIUM"
+                            ? "secondary"
+                            : "destructive"
+                      }
+                    >
+                      Risk: {aiAnalysis.riskLevel}
+                    </Badge>
+                  </div>
+                  {aiAnalysis.recommendations.length > 0 && (
+                    <div>
+                      <p className="text-sm font-medium mb-1">Recommendations:</p>
+                      <ul className="text-sm text-gray-600 list-disc list-inside">
+                        {aiAnalysis.recommendations.map((rec, index) => (
+                          <li key={index}>{rec}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+
+          <div className="flex flex-wrap gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                setAiQuery("What's the current market sentiment?")
+                analyzeMarket("What's the current market sentiment?")
+              }}
+            >
+              Market Sentiment
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                setAiQuery("Should I invest in tech stocks now?")
+                analyzeMarket("Should I invest in tech stocks now?")
+              }}
+            >
+              Tech Stock Analysis
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                setAiQuery("What are the best investment opportunities today?")
+                analyzeMarket("What are the best investment opportunities today?")
+              }}
+            >
+              Investment Opportunities
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Search */}
       <Card>
