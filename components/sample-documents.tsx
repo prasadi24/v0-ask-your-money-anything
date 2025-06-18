@@ -16,7 +16,7 @@ AXIS BLUECHIP FUND - FACTSHEET MARCH 2024
 
 Fund Overview:
 - Fund Name: Axis Bluechip Fund
-- Category: Large Cap Equity Fund
+- Category: Large Cap Equity Fund (SEBI Category)
 - Benchmark: Nifty 100 TRI
 - Fund Manager: Shreyash Devalkar
 - Launch Date: January 1, 2010
@@ -49,14 +49,14 @@ Sector Allocation:
 - Healthcare: 7.45%
 
 Investment Objective:
-To generate long-term capital appreciation by investing predominantly in equity and equity related securities of large cap companies.
+To generate long-term capital appreciation by investing predominantly in equity and equity related securities of large cap companies as defined by SEBI.
 
 Risk Factors:
 - Market risk due to equity exposure
 - Concentration risk in large cap stocks
 - Liquidity risk during market stress
 - Interest rate risk affecting valuations
-    `,
+`,
   },
   {
     name: "Gold Price Report RBI Q1 2024.pdf",
@@ -71,7 +71,7 @@ Current Gold Prices (March 31, 2024):
 - 24K Gold: ₹6,245 per gram
 - 22K Gold: ₹5,725 per gram
 - 18K Gold: ₹4,684 per gram
-- Gold ETF: ₹6,198 per gram
+- Sovereign Gold Bond: ₹6,198 per gram
 
 Price Movement Analysis:
 - Q1 2024 Return: +12.3%
@@ -81,7 +81,7 @@ Price Movement Analysis:
 
 Factors Affecting Gold Prices:
 1. Global inflation concerns
-2. US Federal Reserve policy changes
+2. RBI monetary policy changes
 3. Geopolitical tensions (Russia-Ukraine, Middle East)
 4. Indian rupee depreciation
 5. Domestic demand patterns
@@ -104,14 +104,14 @@ Regional Price Variations:
 
 Investment Options:
 1. Physical Gold (coins, bars, jewelry)
-2. Gold ETFs (expense ratio: 0.5-1%)
-3. Gold Mutual Funds
-4. Digital Gold platforms
-5. Gold bonds (Government)
+2. Sovereign Gold Bonds (2.5% interest + capital appreciation)
+3. Gold ETFs (expense ratio: 0.5-1%)
+4. Gold Mutual Funds
+5. Digital Gold platforms
 
 Outlook:
 RBI expects gold prices to remain volatile in Q2 2024, with potential for further upside if global uncertainties persist.
-    `,
+`,
   },
   {
     name: "Amaravati Real Estate Market Report 2024.pdf",
@@ -155,7 +155,7 @@ Positive Factors:
 
 Risk Factors:
 - Political uncertainty
-- Regulatory delays
+- RERA approval delays
 - Market liquidity concerns
 - Construction timeline delays
 
@@ -173,8 +173,8 @@ Future Outlook:
 Market experts predict 10-15% annual growth over the next 5 years, subject to political stability and infrastructure completion.
 
 Investment Recommendation:
-Suitable for long-term investors (5+ years) with moderate to high risk tolerance. Focus on areas with confirmed infrastructure development.
-    `,
+Suitable for long-term investors (5+ years) with moderate to high risk tolerance. Focus on areas with confirmed infrastructure development and RERA-approved projects.
+`,
   },
 ]
 

@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { Brain, Send, User, FileText, TrendingUp, Home, DollarSign } from "lucide-react"
+import { Brain, Send, User, FileText, TrendingUp, Home, IndianRupee } from "lucide-react"
 import Link from "next/link"
 
 interface Message {
@@ -26,16 +26,16 @@ const sampleQuestions = [
     questions: [
       "How did Axis Bluechip Fund perform in the last 5 years?",
       "Compare SIP vs lump sum for HDFC Top 100 Fund",
-      "Which mutual funds have the lowest expense ratio?",
+      "Which SEBI-approved mutual funds have the lowest expense ratio?",
     ],
   },
   {
-    icon: DollarSign,
+    icon: IndianRupee,
     category: "Gold & Commodities",
     questions: [
-      "What are the current gold prices and trends?",
-      "Should I invest in gold ETFs or physical gold?",
-      "How does gold perform during inflation?",
+      "What are the current gold prices as per RBI data?",
+      "Should I invest in Sovereign Gold Bonds or physical gold?",
+      "How does gold perform during RBI rate changes?",
     ],
   },
   {
@@ -44,7 +44,7 @@ const sampleQuestions = [
     questions: [
       "Should I invest in Amaravati real estate now?",
       "What are the property trends in Vijayawada?",
-      "Compare rental yields in different areas",
+      "Compare RERA-registered projects in Hyderabad",
     ],
   },
 ]

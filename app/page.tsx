@@ -12,7 +12,7 @@ import {
   TrendingUp,
   Users,
   MessageSquare,
-  DollarSign,
+  IndianRupee,
 } from "lucide-react"
 import Link from "next/link"
 
@@ -198,25 +198,25 @@ export default function HomePage() {
 
             <Card className="border-0 shadow-lg">
               <CardHeader>
-                <DollarSign className="h-10 w-10 text-teal-600 mb-4" />
+                <IndianRupee className="h-10 w-10 text-teal-600 mb-4" />
                 <CardTitle className="text-xl">Market Analysis</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 <div className="flex items-center space-x-2">
                   <CheckCircle className="h-4 w-4 text-green-600" />
-                  <span className="text-sm">Real-time gold and commodity prices</span>
+                  <span className="text-sm">RBI-reported gold and commodity prices</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <CheckCircle className="h-4 w-4 text-green-600" />
-                  <span className="text-sm">Stock market trends and insights</span>
+                  <span className="text-sm">SEBI-regulated stock market trends</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <CheckCircle className="h-4 w-4 text-green-600" />
-                  <span className="text-sm">Economic indicators and impact analysis</span>
+                  <span className="text-sm">Economic indicators and RBI policy impact</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <CheckCircle className="h-4 w-4 text-green-600" />
-                  <span className="text-sm">Sector-wise performance comparison</span>
+                  <span className="text-sm">NSE/BSE sector-wise performance</span>
                 </div>
               </CardContent>
             </Card>
@@ -229,7 +229,7 @@ export default function HomePage() {
               <CardContent className="space-y-3">
                 <div className="flex items-center space-x-2">
                   <CheckCircle className="h-4 w-4 text-green-600" />
-                  <span className="text-sm">LIC and ULIP policy comparison</span>
+                  <span className="text-sm">IRDA-approved LIC and ULIP policies</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <CheckCircle className="h-4 w-4 text-green-600" />
@@ -237,7 +237,7 @@ export default function HomePage() {
                 </div>
                 <div className="flex items-center space-x-2">
                   <CheckCircle className="h-4 w-4 text-green-600" />
-                  <span className="text-sm">Retirement and pension planning</span>
+                  <span className="text-sm">NPS and PPF retirement planning</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <CheckCircle className="h-4 w-4 text-green-600" />
@@ -260,14 +260,14 @@ export default function HomePage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {[
               "How did Axis Bluechip Fund perform in the last 5 years?",
-              "What are the current gold prices and should I invest now?",
+              "What are the current gold prices as per RBI data?",
               "Should I invest in Amaravati real estate in 2024?",
               "Compare SIP vs lump sum for HDFC Top 100 Fund",
-              "What are the tax implications of selling mutual funds?",
+              "What are the tax implications under LTCG for mutual funds?",
               "Which LIC policy offers the best returns for 10 years?",
-              "How to build a ₹1 crore retirement corpus?",
+              "How to build a ₹1 crore retirement corpus with PPF and NPS?",
               "Best tax-saving investments under Section 80C",
-              "Should I invest in small cap or large cap funds?",
+              "SEBI's new mutual fund categorization: small cap or large cap?",
             ].map((question, index) => (
               <Card
                 key={index}

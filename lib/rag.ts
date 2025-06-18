@@ -18,7 +18,7 @@ const mockDocumentChunks: DocumentChunk[] = [
   {
     id: "1",
     content:
-      "Axis Bluechip Fund has delivered consistent returns over the past 5 years with an annualized return of 13.2%. The fund focuses on large-cap stocks and has a moderate risk profile. Expense ratio is 1.8% and current AUM is ₹15,000 crores.",
+      "Axis Bluechip Fund has delivered consistent returns over the past 5 years with an annualized return of 13.2%. The fund focuses on large-cap stocks and has a moderate risk profile as per SEBI categorization. Expense ratio is 1.8% and current AUM is ₹15,000 crores.",
     metadata: {
       source: "Axis Bluechip Fund Factsheet March 2024.pdf",
       page: 1,
@@ -28,7 +28,7 @@ const mockDocumentChunks: DocumentChunk[] = [
   {
     id: "2",
     content:
-      "Current gold prices as of March 2024: 24K gold is trading at ₹6,245 per gram, while 22K gold is at ₹5,725 per gram. Gold prices have shown an upward trend due to global economic uncertainty and inflation concerns.",
+      "Current gold prices as of March 2024 as per RBI data: 24K gold is trading at ₹6,245 per gram, while 22K gold is at ₹5,725 per gram. Gold prices have shown an upward trend due to global economic uncertainty and inflation concerns. The RBI has increased its gold reserves by 12% in the last quarter.",
     metadata: {
       source: "Gold Price Report RBI Q1 2024.pdf",
       page: 2,
@@ -38,7 +38,7 @@ const mockDocumentChunks: DocumentChunk[] = [
   {
     id: "3",
     content:
-      "Amaravati real estate market shows promising growth with average property prices at ₹4,500 per sq ft. The region is experiencing 8% annual growth due to ongoing infrastructure development and government initiatives.",
+      "Amaravati real estate market shows promising growth with average property prices at ₹4,500 per sq ft. The region is experiencing 8% annual growth due to ongoing infrastructure development and government initiatives. RERA registration has increased by 15% in the last quarter.",
     metadata: {
       source: "Amaravati Real Estate Trends 2024.pdf",
       page: 1,
@@ -106,22 +106,25 @@ export class RAGEngine {
       // Generate answer using AI SDK
       const { text } = await generateText({
         model: openai("gpt-4o"),
-        system: `You are FinGPT, an expert financial advisor AI assistant. You help users with questions about investments, mutual funds, real estate, gold prices, and financial planning.
+        system: `You are FinGPT, an expert financial advisor AI assistant for Indian markets. You help users with questions about investments, mutual funds, real estate, gold prices, and financial planning.
 
-        Use ONLY the provided context from financial documents to answer questions. Be precise with numbers and percentages. Always mention risk factors when discussing investments.
+  Use ONLY the provided context from financial documents to answer questions. Be precise with numbers and percentages. Always mention risk factors when discussing investments.
 
-        Guidelines:
-        - Provide specific data when available
-        - Include relevant disclaimers about financial advice
-        - If the context doesn't contain enough information, say so
-        - Cite the sources you're using
-        - Be concise but comprehensive`,
+  Guidelines:
+  - Provide specific data when available
+  - Include relevant disclaimers about financial advice
+  - If the context doesn't contain enough information, say so
+  - Cite the sources you're using
+  - Be concise but comprehensive
+  - Use Indian financial terms (SEBI, RBI, IRDA, NSE, BSE)
+  - Always use the rupee symbol (₹) for monetary values
+  - Reference Indian tax laws and regulations when applicable`,
         prompt: `Context from financial documents:
-        ${context}
-        
-        User question: ${query}
-        
-        Please provide a comprehensive answer based on the available data. Include specific numbers, percentages, and risk factors where applicable.`,
+  ${context}
+  
+  User question: ${query}
+  
+  Please provide a comprehensive answer based on the available data. Include specific numbers, percentages, and risk factors where applicable.`,
       })
 
       const sources = [...new Set(relevantChunks.map((chunk) => chunk.metadata.source))]
