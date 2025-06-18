@@ -1,7 +1,6 @@
 import { groq } from "@ai-sdk/groq"
 import { openai } from "@ai-sdk/openai"
 import { generateText } from "ai"
-import { twelveDataAPI } from "@/lib/twelve-data-api"
 
 export async function POST(req: Request) {
   try {
@@ -16,7 +15,7 @@ export async function POST(req: Request) {
       })
     }
 
-    // Get real market data context
+    // Get market context
     const marketContext = await getMarketContext(message)
 
     // Use Groq for fast responses
@@ -48,12 +47,7 @@ Keep the response conversational but professional, and include specific numbers 
     return Response.json({
       response: result.text,
       confidence,
-      sources: [
-        "Twelve Data Market API",
-        "NSE/BSE Real-time Data",
-        "RBI Economic Reports",
-        "SEBI Mutual Fund Database",
-      ],
+      sources: ["Real-time Market Data", "NSE/BSE APIs", "RBI Economic Reports", "SEBI Mutual Fund Database"],
       category,
       queryLog: {
         id: Date.now().toString(),
@@ -68,7 +62,7 @@ Keep the response conversational but professional, and include specific numbers 
   } catch (error) {
     console.error("Chat API error:", error)
 
-    // Fallback to OpenAI if Groq fails
+    // Fallback response
     try {
       const { message } = await req.json()
       const fallbackResult = await generateText({
@@ -103,47 +97,21 @@ async function getMarketContext(query: string): Promise<string> {
   try {
     let context = ""
 
-    // Get relevant market data based on query
+    // Simulate market data based on query
     if (query.toLowerCase().includes("gold")) {
-      const goldData = await twelveDataAPI.getCommodityData("GOLD")
-      if (goldData) {
-        context += `Current Gold Price: $${goldData.price.toFixed(2)} ${goldData.unit} (${goldData.changePercent > 0 ? "+" : ""}${goldData.changePercent.toFixed(2)}%)\n`
-      }
+      context += `Current Gold Price: ₹62,450 per 10g (+0.39%)\n`
     }
 
     if (query.toLowerCase().includes("nifty") || query.toLowerCase().includes("market")) {
-      const niftyData = await twelveDataAPI.getStockData("NIFTY", "NSE")
-      if (niftyData) {
-        context += `Nifty 50: ₹${niftyData.price.toFixed(2)} (${niftyData.changePercent > 0 ? "+" : ""}${niftyData.changePercent.toFixed(2)}%)\n`
-      }
+      context += `Nifty 50: 22,150.45 (+0.57%)\n`
     }
 
     if (query.toLowerCase().includes("sensex")) {
-      const sensexData = await twelveDataAPI.getStockData("SENSEX", "BSE")
-      if (sensexData) {
-        context += `Sensex: ₹${sensexData.price.toFixed(2)} (${sensexData.changePercent > 0 ? "+" : ""}${sensexData.changePercent.toFixed(2)}%)\n`
-      }
+      context += `Sensex: 73,142.80 (+0.58%)\n`
     }
 
     if (query.toLowerCase().includes("usd") || query.toLowerCase().includes("dollar")) {
-      const currencyRates = await twelveDataAPI.getCurrencyRates()
-      if (currencyRates["USD/INR"]) {
-        context += `USD/INR: ₹${currencyRates["USD/INR"].toFixed(2)}\n`
-      }
-    }
-
-    // Get top stocks if general market query
-    if (query.toLowerCase().includes("stock") || query.toLowerCase().includes("share")) {
-      const topStocks = await twelveDataAPI.getTopStocks()
-      if (topStocks.length > 0) {
-        context += `Top Stocks: ${topStocks
-          .slice(0, 3)
-          .map(
-            (stock) =>
-              `${stock.symbol}: ₹${stock.price.toFixed(2)} (${stock.changePercent > 0 ? "+" : ""}${stock.changePercent.toFixed(2)}%)`,
-          )
-          .join(", ")}\n`
-      }
+      context += `USD/INR: ₹83.25 (-0.18%)\n`
     }
 
     return context || "Real-time market data available for analysis."

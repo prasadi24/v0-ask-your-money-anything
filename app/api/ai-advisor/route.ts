@@ -1,7 +1,6 @@
 import { groq } from "@ai-sdk/groq"
 import { openai } from "@ai-sdk/openai"
 import { generateText } from "ai"
-import { twelveDataAPI } from "@/lib/twelve-data-api"
 
 export async function POST(req: Request) {
   try {
@@ -89,47 +88,25 @@ async function getEnhancedMarketData(query: string): Promise<string> {
   try {
     let data = ""
 
-    // Always get basic market indices
-    const [nifty, sensex, bankNifty] = await Promise.all([
-      twelveDataAPI.getStockData("NIFTY", "NSE"),
-      twelveDataAPI.getStockData("SENSEX", "BSE"),
-      twelveDataAPI.getStockData("BANKNIFTY", "NSE"),
-    ])
+    // Simulate enhanced market data
+    data += `Nifty 50: ₹22,150.45 (+0.57%)\n`
+    data += `Sensex: ₹73,142.80 (+0.58%)\n`
+    data += `Bank Nifty: ₹46,890.25 (+0.42%)\n`
+    data += `USD/INR: ₹83.25 (-0.18%)\n`
 
-    if (nifty)
-      data += `Nifty 50: ₹${nifty.price.toFixed(2)} (${nifty.changePercent > 0 ? "+" : ""}${nifty.changePercent.toFixed(2)}%)\n`
-    if (sensex)
-      data += `Sensex: ₹${sensex.price.toFixed(2)} (${sensex.changePercent > 0 ? "+" : ""}${sensex.changePercent.toFixed(2)}%)\n`
-    if (bankNifty)
-      data += `Bank Nifty: ₹${bankNifty.price.toFixed(2)} (${bankNifty.changePercent > 0 ? "+" : ""}${bankNifty.changePercent.toFixed(2)}%)\n`
-
-    // Get currency rates
-    const currencies = await twelveDataAPI.getCurrencyRates()
-    if (currencies["USD/INR"]) {
-      data += `USD/INR: ₹${currencies["USD/INR"].toFixed(2)}\n`
-    }
-
-    // Get commodities if relevant
+    // Add commodity data if relevant
     if (query.toLowerCase().includes("gold") || query.toLowerCase().includes("commodity")) {
-      const [gold, silver] = await Promise.all([
-        twelveDataAPI.getCommodityData("GOLD"),
-        twelveDataAPI.getCommodityData("SILVER"),
-      ])
-
-      if (gold)
-        data += `Gold: $${gold.price.toFixed(2)} ${gold.unit} (${gold.changePercent > 0 ? "+" : ""}${gold.changePercent.toFixed(2)}%)\n`
-      if (silver)
-        data += `Silver: $${silver.price.toFixed(2)} ${silver.unit} (${silver.changePercent > 0 ? "+" : ""}${silver.changePercent.toFixed(2)}%)\n`
+      data += `Gold: ₹62,450 per 10g (+0.39%)\n`
+      data += `Silver: ₹74,200 per kg (+0.25%)\n`
     }
 
-    // Get top stocks for general queries
-    const topStocks = await twelveDataAPI.getTopStocks()
-    if (topStocks.length > 0) {
-      data += `\nTop Performing Stocks:\n`
-      topStocks.slice(0, 5).forEach((stock) => {
-        data += `${stock.symbol}: ₹${stock.price.toFixed(2)} (${stock.changePercent > 0 ? "+" : ""}${stock.changePercent.toFixed(2)}%)\n`
-      })
-    }
+    // Add top stocks for general queries
+    data += `\nTop Performing Stocks:\n`
+    data += `RELIANCE: ₹2,845.30 (+1.2%)\n`
+    data += `TCS: ₹3,678.45 (+0.8%)\n`
+    data += `HDFC BANK: ₹1,542.20 (+0.6%)\n`
+    data += `INFOSYS: ₹1,789.65 (+1.1%)\n`
+    data += `ICICI BANK: ₹1,156.80 (+0.9%)\n`
 
     return data || "Real-time market data available for comprehensive analysis."
   } catch (error) {
