@@ -20,31 +20,6 @@ import Link from "next/link"
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-artha-50 via-white to-indigo-50">
-      {/* Header */}
-      <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <Coins className="h-8 w-8 text-artha-500" />
-            <h1 className="text-2xl font-bold text-indigo-800">ArthaGPT</h1>
-            <Badge variant="outline" className="ml-2 border-artha-300 text-artha-700">
-              Beta
-            </Badge>
-          </div>
-          <nav className="flex items-center space-x-4">
-            <Link href="/ask">
-              <Button variant="ghost">Try Demo</Button>
-            </Link>
-            <Link href="/pricing">
-              <Button variant="ghost">Pricing</Button>
-            </Link>
-            <Link href="/admin">
-              <Button variant="ghost">Admin</Button>
-            </Link>
-            <Button className="bg-indigo-800 hover:bg-indigo-900 text-white">Get Started Free</Button>
-          </nav>
-        </div>
-      </header>
-
       {/* Hero Section */}
       <section className="container mx-auto px-4 py-20 text-center">
         <div className="max-w-4xl mx-auto">

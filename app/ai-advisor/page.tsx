@@ -5,8 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
-import { Brain, MessageSquare, Shield, ArrowLeft, Send, FileText, Target, Calculator, Zap } from "lucide-react"
-import Link from "next/link"
+import { Brain, MessageSquare, Shield, Send, FileText, Target, Calculator, Zap } from "lucide-react"
 import { VoiceAssistant } from "@/components/voice-assistant"
 
 interface ChatMessage {
@@ -128,20 +127,13 @@ export default function AIAdvisorPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white border-b shadow-sm">
-        <div className="container mx-auto px-4 py-4">
+      <div className="container mx-auto px-4 py-8">
+        <div className="mb-8">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <Link href="/">
-                <Button variant="ghost" size="sm">
-                  <ArrowLeft className="h-4 w-4 mr-2" />
-                  Back to Home
-                </Button>
-              </Link>
               <div className="flex items-center space-x-2">
                 <Brain className="h-6 w-6 text-purple-600" />
-                <h1 className="text-2xl font-bold">AI Financial Advisor</h1>
+                <h1 className="text-3xl font-bold">AI Financial Advisor</h1>
                 <Badge variant="outline" className="bg-purple-50 text-purple-700 border-purple-200">
                   Powered by {selectedModel === "groq" ? "Groq" : "OpenAI"}
                 </Badge>
@@ -167,9 +159,7 @@ export default function AIAdvisorPage() {
             </div>
           </div>
         </div>
-      </header>
 
-      <div className="container mx-auto px-4 py-8">
         <div className="grid lg:grid-cols-4 gap-8">
           {/* Sidebar */}
           <div className="lg:col-span-1 space-y-6">
