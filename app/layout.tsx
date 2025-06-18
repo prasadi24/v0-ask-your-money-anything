@@ -18,8 +18,8 @@ export const metadata: Metadata = {
   publisher: "ArthaGPT",
   icons: {
     icon: [
-      { url: "/favicon.png", type: "image/svg+xml" },
-      { url: "/arthagpt-icon.png", sizes: "32x32", type: "image/svg+xml" },
+      { url: "/favicon.png", sizes: "32x32", type: "image/png" },
+      { url: "/arthagpt-icon.png", type: "image/svg+xml" },
     ],
     apple: [{ url: "/arthagpt-icon.png", sizes: "180x180", type: "image/svg+xml" }],
   },
@@ -57,7 +57,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="icon" href="/favicon.png" type="image/svg+xml" />
+        <link rel="icon" href="/favicon.png" type="image/png" />
         <link rel="apple-touch-icon" href="/arthagpt-icon.png" />
       </head>
       <body className={inter.className}>

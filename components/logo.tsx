@@ -1,6 +1,4 @@
 "use client"
-
-import Image from "next/image"
 import Link from "next/link"
 
 interface LogoProps {
@@ -20,19 +18,29 @@ export function Logo({ variant = "full", size = "md", className = "" }: LogoProp
     return (
       <Link href="/" className={`flex items-center ${className}`}>
         <div className={`${sizeClasses[size]} flex items-center justify-center`}>
-          <svg viewBox="0 0 64 64" fill="none" className="w-full h-full">
-            <path
-              d="M32 8C18.745 8 8 18.745 8 32C8 45.255 18.745 56 32 56C45.255 56 56 45.255 56 32C56 18.745 45.255 8 32 8Z"
-              fill="#1e293b"
-            />
-            <circle cx="32" cy="28" r="8" fill="#fbbf24" />
-            <circle cx="32" cy="32" r="6" fill="#fbbf24" />
-            <circle cx="32" cy="36" r="4" fill="#fbbf24" />
-            <path d="M28 28h8M30 26v4M34 26v4" stroke="#1e293b" strokeWidth="1.5" />
-            <circle cx="44" cy="20" r="3" fill="#1e293b" />
-            <circle cx="48" cy="16" r="2" fill="#1e293b" />
-            <line x1="40" y1="24" x2="44" y2="20" stroke="#1e293b" strokeWidth="2" />
-            <line x1="44" y1="20" x2="48" y2="16" stroke="#1e293b" strokeWidth="2" />
+          {/* ArthaGPT Icon - Abstract face with Lakshmi crown/bull horns */}
+          <svg viewBox="0 0 48 48" fill="none" className="w-full h-full">
+            {/* Main face/head shape */}
+            <ellipse cx="24" cy="28" rx="12" ry="14" fill="#1e293b" />
+
+            {/* Left horn/crown element - rising curve */}
+            <path d="M16 20 C14 16, 12 14, 8 12 C10 10, 14 12, 18 16 C20 18, 18 22, 16 20 Z" fill="#fbbf24" />
+
+            {/* Right horn/crown element - rising curve */}
+            <path d="M32 20 C34 16, 36 14, 40 12 C38 10, 34 12, 30 16 C28 18, 30 22, 32 20 Z" fill="#fbbf24" />
+
+            {/* Central crown jewel/third eye */}
+            <circle cx="24" cy="18" r="3" fill="#fbbf24" />
+
+            {/* Eyes - representing AI intelligence */}
+            <circle cx="20" cy="26" r="1.5" fill="#fbbf24" />
+            <circle cx="28" cy="26" r="1.5" fill="#fbbf24" />
+
+            {/* Subtle smile - wisdom and friendliness */}
+            <path d="M20 32 Q24 34, 28 32" stroke="#fbbf24" strokeWidth="1.5" fill="none" />
+
+            {/* Sanskrit-inspired decorative elements */}
+            <path d="M24 12 L24 8 M20 14 L18 10 M28 14 L30 10" stroke="#fbbf24" strokeWidth="1" />
           </svg>
         </div>
       </Link>
@@ -41,14 +49,33 @@ export function Logo({ variant = "full", size = "md", className = "" }: LogoProp
 
   return (
     <Link href="/" className={`flex items-center space-x-3 ${className}`}>
-      <Image
-        src="/arthagpt-logo.png"
-        alt="ArthaGPT - AI Financial Wisdom"
-        width={size === "sm" ? 120 : size === "md" ? 150 : 180}
-        height={size === "sm" ? 32 : size === "md" ? 40 : 48}
-        className={sizeClasses[size]}
-        priority
-      />
+      <div className={`${sizeClasses[size]} flex items-center justify-center`}>
+        {/* ArthaGPT Icon */}
+        <svg viewBox="0 0 48 48" fill="none" className="w-full h-full">
+          <ellipse cx="24" cy="28" rx="12" ry="14" fill="#1e293b" />
+          <path d="M16 20 C14 16, 12 14, 8 12 C10 10, 14 12, 18 16 C20 18, 18 22, 16 20 Z" fill="#fbbf24" />
+          <path d="M32 20 C34 16, 36 14, 40 12 C38 10, 34 12, 30 16 C28 18, 30 22, 32 20 Z" fill="#fbbf24" />
+          <circle cx="24" cy="18" r="3" fill="#fbbf24" />
+          <circle cx="20" cy="26" r="1.5" fill="#fbbf24" />
+          <circle cx="28" cy="26" r="1.5" fill="#fbbf24" />
+          <path d="M20 32 Q24 34, 28 32" stroke="#fbbf24" strokeWidth="1.5" fill="none" />
+          <path d="M24 12 L24 8 M20 14 L18 10 M28 14 L30 10" stroke="#fbbf24" strokeWidth="1" />
+        </svg>
+      </div>
+
+      {/* ArthaGPT Text */}
+      <div className="flex items-center">
+        <span
+          className={`font-bold text-brand-gold ${size === "sm" ? "text-lg" : size === "md" ? "text-xl" : "text-2xl"}`}
+        >
+          Artha
+        </span>
+        <span
+          className={`font-bold text-brand-navy ${size === "sm" ? "text-lg" : size === "md" ? "text-xl" : "text-2xl"}`}
+        >
+          GPT
+        </span>
+      </div>
     </Link>
   )
 }
