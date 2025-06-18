@@ -94,7 +94,7 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <div className="flex items-center justify-center space-x-2 mb-2">
-            <Brain className="h-8 w-8 text-blue-600" />
+            <Brain className="h-8 w-8 text-orange-600" />
             <CardTitle className="text-2xl">FinGPT</CardTitle>
           </div>
           <CardDescription>Sign in to access your personalized financial AI assistant</CardDescription>
@@ -123,7 +123,7 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
                       id="signin-email"
                       type="email"
                       placeholder="Enter your email"
-                      className="pl-10"
+                      className="pl-10 focus-visible:ring-orange-500 focus-visible:ring-offset-2"
                       value={signInData.email}
                       onChange={(e) => setSignInData({ ...signInData, email: e.target.value })}
                       required
@@ -139,7 +139,7 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
                       id="signin-password"
                       type="password"
                       placeholder="Enter your password"
-                      className="pl-10"
+                      className="pl-10 focus-visible:ring-orange-500 focus-visible:ring-offset-2"
                       value={signInData.password}
                       onChange={(e) => setSignInData({ ...signInData, password: e.target.value })}
                       required
@@ -147,7 +147,11 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
                   </div>
                 </div>
 
-                <Button type="submit" className="w-full" disabled={loading}>
+                <Button
+                  type="submit"
+                  className="w-full bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:shadow-outline"
+                  disabled={loading}
+                >
                   {loading ? "Signing in..." : "Sign In"}
                 </Button>
               </form>
@@ -163,7 +167,7 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
                       id="signup-name"
                       type="text"
                       placeholder="Enter your full name"
-                      className="pl-10"
+                      className="pl-10 focus-visible:ring-orange-500 focus-visible:ring-offset-2"
                       value={signUpData.fullName}
                       onChange={(e) => setSignUpData({ ...signUpData, fullName: e.target.value })}
                     />
@@ -178,7 +182,7 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
                       id="signup-email"
                       type="email"
                       placeholder="Enter your email"
-                      className="pl-10"
+                      className="pl-10 focus-visible:ring-orange-500 focus-visible:ring-offset-2"
                       value={signUpData.email}
                       onChange={(e) => setSignUpData({ ...signUpData, email: e.target.value })}
                       required
@@ -194,7 +198,7 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
                       id="signup-password"
                       type="password"
                       placeholder="Create a password"
-                      className="pl-10"
+                      className="pl-10 focus-visible:ring-orange-500 focus-visible:ring-offset-2"
                       value={signUpData.password}
                       onChange={(e) => setSignUpData({ ...signUpData, password: e.target.value })}
                       required
@@ -202,7 +206,11 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
                   </div>
                 </div>
 
-                <Button type="submit" className="w-full" disabled={loading}>
+                <Button
+                  type="submit"
+                  className="w-full bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:shadow-outline"
+                  disabled={loading}
+                >
                   {loading ? "Creating account..." : "Create Account"}
                 </Button>
               </form>

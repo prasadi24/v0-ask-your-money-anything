@@ -18,12 +18,12 @@ import Link from "next/link"
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-amber-50">
       {/* Header */}
       <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <Brain className="h-8 w-8 text-blue-600" />
+            <Brain className="h-8 w-8 text-orange-600" />
             <h1 className="text-2xl font-bold text-gray-900">FinGPT</h1>
             <Badge variant="outline" className="ml-2">
               Beta
@@ -53,7 +53,9 @@ export default function HomePage() {
 
           <h1 className="text-6xl font-bold text-gray-900 mb-6 leading-tight">
             Ask Your Money{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-green-600">Anything</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-amber-600">
+              Anything
+            </span>
           </h1>
 
           <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
@@ -104,7 +106,7 @@ export default function HomePage() {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
             <CardHeader>
-              <Brain className="h-12 w-12 text-blue-600 mb-4" />
+              <Brain className="h-12 w-12 text-orange-600 mb-4" />
               <CardTitle className="text-xl">AI-Powered Analysis</CardTitle>
             </CardHeader>
             <CardContent>
@@ -117,7 +119,7 @@ export default function HomePage() {
 
           <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
             <CardHeader>
-              <Database className="h-12 w-12 text-green-600 mb-4" />
+              <Database className="h-12 w-12 text-amber-600 mb-4" />
               <CardTitle className="text-xl">Real-Time Data</CardTitle>
             </CardHeader>
             <CardContent>
@@ -267,7 +269,7 @@ export default function HomePage() {
             ].map((question, index) => (
               <Card
                 key={index}
-                className="hover:shadow-lg transition-shadow cursor-pointer border-l-4 border-l-blue-600"
+                className="hover:shadow-lg transition-shadow cursor-pointer border-l-4 border-l-orange-600"
               >
                 <CardContent className="p-6">
                   <p className="text-gray-700 font-medium">"{question}"</p>
@@ -288,7 +290,7 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-green-600 py-20">
+      <section className="bg-gradient-to-r from-orange-600 to-amber-600 py-20">
         <div className="container mx-auto px-4 text-center">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-4xl font-bold text-white mb-6">Ready to Make Smarter Financial Decisions?</h2>
@@ -306,7 +308,7 @@ export default function HomePage() {
               <Button
                 size="lg"
                 variant="outline"
-                className="text-lg px-8 py-4 h-auto border-white text-white hover:bg-white hover:text-blue-600"
+                className="text-lg px-8 py-4 h-auto border-white text-white hover:bg-white hover:text-orange-600"
               >
                 Schedule Demo
               </Button>

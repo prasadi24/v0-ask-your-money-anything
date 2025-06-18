@@ -113,7 +113,7 @@ export default function AskPage() {
       <header className="border-b bg-white">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
-            <Brain className="h-8 w-8 text-blue-600" />
+            <Brain className="h-8 w-8 text-orange-600" />
             <h1 className="text-2xl font-bold text-gray-900">FinGPT</h1>
           </Link>
           <nav className="flex items-center space-x-4">
@@ -137,7 +137,7 @@ export default function AskPage() {
                 {sampleQuestions.map((category, index) => (
                   <div key={index}>
                     <div className="flex items-center space-x-2 mb-2">
-                      <category.icon className="h-4 w-4 text-blue-600" />
+                      <category.icon className="h-4 w-4 text-orange-600" />
                       <h3 className="font-medium text-sm">{category.category}</h3>
                     </div>
                     <div className="space-y-1">
@@ -145,7 +145,7 @@ export default function AskPage() {
                         <button
                           key={qIndex}
                           onClick={() => handleSampleQuestion(question)}
-                          className="text-left text-xs text-gray-600 hover:text-blue-600 block w-full p-2 rounded hover:bg-blue-50 transition-colors"
+                          className="text-left text-xs text-gray-600 hover:text-orange-600 block w-full p-2 rounded hover:bg-orange-50 transition-colors"
                         >
                           {question}
                         </button>
@@ -162,7 +162,7 @@ export default function AskPage() {
             <Card className="h-[600px] flex flex-col">
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
-                  <Brain className="h-5 w-5 text-blue-600" />
+                  <Brain className="h-5 w-5 text-orange-600" />
                   <span>Ask Your Financial Questions</span>
                 </CardTitle>
               </CardHeader>
@@ -198,7 +198,7 @@ export default function AskPage() {
                             </Avatar>
                             <div
                               className={`rounded-lg p-4 ${
-                                message.role === "user" ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-900"
+                                message.role === "user" ? "bg-orange-600 text-white" : "bg-gray-100 text-gray-900"
                               }`}
                             >
                               <p className="whitespace-pre-wrap">{message.content}</p>
