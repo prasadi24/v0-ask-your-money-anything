@@ -78,3 +78,6 @@ export function Logo({ variant = "full", size = "md", className = "", showText =
     </Link>
   )
 }
+
+// Also export as default for compatibility
+export default Logo

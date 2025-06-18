@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Activity, Brain, PieChart, TrendingUp, Calculator, Menu, X, Newspaper, AlertTriangle } from "lucide-react"
 import Link from "next/link"
-import { Logo } from "@/components/logo"
+import { Logo } from "@/components/ui/logo"
 
 export function EnhancedNavigation() {
   const [isOpen, setIsOpen] = useState(false)
@@ -156,3 +156,6 @@ export function EnhancedNavigation() {
     </header>
   )
 }
+
+// Default export for compatibility
+export default EnhancedNavigation
