@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { Brain, Send, User, FileText, TrendingUp, Home, IndianRupee } from "lucide-react"
+import { Brain, Send, User, FileText, TrendingUp, Home, IndianRupee, Coins } from "lucide-react"
 import Link from "next/link"
 
 interface Message {
@@ -113,14 +113,14 @@ export default function AskPage() {
       <header className="border-b bg-white">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
-            <Brain className="h-8 w-8 text-navy-800" />
-            <h1 className="text-2xl font-bold text-gray-900">FinGPT</h1>
+            <Coins className="h-8 w-8 text-artha-500" />
+            <h1 className="text-2xl font-bold text-indigo-800">ArthaGPT</h1>
           </Link>
           <nav className="flex items-center space-x-4">
             <Link href="/admin">
               <Button variant="ghost">Admin</Button>
             </Link>
-            <Button className="bg-navy-800 hover:bg-navy-900">Sign In</Button>
+            <Button className="bg-indigo-800 hover:bg-indigo-900">Sign In</Button>
           </nav>
         </div>
       </header>
@@ -137,7 +137,7 @@ export default function AskPage() {
                 {sampleQuestions.map((category, index) => (
                   <div key={index}>
                     <div className="flex items-center space-x-2 mb-2">
-                      <category.icon className="h-4 w-4 text-navy-600" />
+                      <category.icon className="h-4 w-4 text-artha-600" />
                       <h3 className="font-medium text-sm">{category.category}</h3>
                     </div>
                     <div className="space-y-1">
@@ -162,7 +162,7 @@ export default function AskPage() {
             <Card className="h-[600px] flex flex-col">
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
-                  <Brain className="h-5 w-5 text-navy-600" />
+                  <Coins className="h-5 w-5 text-artha-600" />
                   <span>Ask Your Financial Questions</span>
                 </CardTitle>
               </CardHeader>
@@ -173,7 +173,7 @@ export default function AskPage() {
                   {messages.length === 0 ? (
                     <div className="text-center py-12">
                       <Brain className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                      <h3 className="text-lg font-medium text-gray-900 mb-2">Welcome to FinGPT!</h3>
+                      <h3 className="text-lg font-medium text-gray-900 mb-2">Welcome to ArthaGPT!</h3>
                       <p className="text-gray-600 mb-4">
                         Ask me anything about investments, real estate, mutual funds, or financial planning.
                       </p>

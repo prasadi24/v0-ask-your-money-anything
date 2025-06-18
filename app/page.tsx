@@ -13,19 +13,20 @@ import {
   Users,
   MessageSquare,
   IndianRupee,
+  Coins,
 } from "lucide-react"
 import Link from "next/link"
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-navy-50 via-white to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-artha-50 via-white to-indigo-50">
       {/* Header */}
       <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <Brain className="h-8 w-8 text-navy-800" />
-            <h1 className="text-2xl font-bold text-gray-900">FinGPT</h1>
-            <Badge variant="outline" className="ml-2">
+            <Coins className="h-8 w-8 text-artha-500" />
+            <h1 className="text-2xl font-bold text-indigo-800">ArthaGPT</h1>
+            <Badge variant="outline" className="ml-2 border-artha-300 text-artha-700">
               Beta
             </Badge>
           </div>
@@ -39,7 +40,7 @@ export default function HomePage() {
             <Link href="/admin">
               <Button variant="ghost">Admin</Button>
             </Link>
-            <Button className="bg-navy-800 hover:bg-navy-900">Get Started Free</Button>
+            <Button className="bg-indigo-800 hover:bg-indigo-900 text-white">Get Started Free</Button>
           </nav>
         </div>
       </header>
@@ -47,31 +48,33 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="container mx-auto px-4 py-20 text-center">
         <div className="max-w-4xl mx-auto">
-          <Badge variant="outline" className="mb-4 border-navy-200 text-navy-700">
-            🚀 Now with AI-powered financial insights
+          <Badge variant="outline" className="mb-4 border-artha-300 text-artha-700">
+            🚀 Your Financial Wisdom Assistant
           </Badge>
 
           <h1 className="text-6xl font-bold text-gray-900 mb-6 leading-tight">
-            Ask Your Money{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-navy-800 to-navy-600">Anything</span>
+            Decode Your{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-artha-500 to-indigo-800">Wealth</span>
           </h1>
+
+          <p className="text-2xl text-artha-600 font-medium mb-4">Ask ArthaGPT.</p>
 
           <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
             Get instant, intelligent answers about investments, real estate, mutual funds, and financial planning
-            powered by AI and real-time Indian market data. Make smarter financial decisions with confidence.
+            powered by AI and real-time Indian market data. Let AI decode your investments.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
             <Link href="/ask">
-              <Button size="lg" className="text-lg px-8 py-4 h-auto bg-navy-800 hover:bg-navy-900">
-                Start Asking Questions
+              <Button size="lg" className="text-lg px-8 py-4 h-auto bg-indigo-800 hover:bg-indigo-900">
+                Ask. Understand. Prosper.
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
             <Button
               size="lg"
               variant="outline"
-              className="text-lg px-8 py-4 h-auto border-navy-300 text-navy-700 hover:bg-navy-50"
+              className="text-lg px-8 py-4 h-auto border-artha-400 text-artha-700 hover:bg-artha-50"
             >
               Watch Demo
             </Button>
@@ -81,14 +84,14 @@ export default function HomePage() {
           <div className="flex items-center justify-center space-x-8 text-sm text-gray-600">
             <div className="flex items-center space-x-2">
               <Users className="h-4 w-4" />
-              <span>1,000+ investors trust FinGPT</span>
+              <span>1,000+ investors trust ArthaGPT</span>
             </div>
             <div className="flex items-center space-x-2">
               <MessageSquare className="h-4 w-4" />
               <span>10,000+ questions answered</span>
             </div>
             <div className="flex items-center space-x-2">
-              <Star className="h-4 w-4 text-yellow-500" />
+              <Star className="h-4 w-4 text-artha-500" />
               <span>4.9/5 user rating</span>
             </div>
           </div>
@@ -108,7 +111,7 @@ export default function HomePage() {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
             <CardHeader>
-              <Brain className="h-12 w-12 text-navy-600 mb-4" />
+              <Brain className="h-12 w-12 text-indigo-600 mb-4" />
               <CardTitle className="text-xl">AI-Powered Analysis</CardTitle>
             </CardHeader>
             <CardContent>
@@ -121,7 +124,7 @@ export default function HomePage() {
 
           <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
             <CardHeader>
-              <Database className="h-12 w-12 text-blue-600 mb-4" />
+              <Database className="h-12 w-12 text-artha-600 mb-4" />
               <CardTitle className="text-xl">Real-Time Data</CardTitle>
             </CardHeader>
             <CardContent>
@@ -134,7 +137,7 @@ export default function HomePage() {
 
           <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
             <CardHeader>
-              <Shield className="h-12 w-12 text-teal-600 mb-4" />
+              <Shield className="h-12 w-12 text-indigo-600 mb-4" />
               <CardTitle className="text-xl">Secure & Private</CardTitle>
             </CardHeader>
             <CardContent>
@@ -147,7 +150,7 @@ export default function HomePage() {
 
           <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
             <CardHeader>
-              <Zap className="h-12 w-12 text-navy-600 mb-4" />
+              <Zap className="h-12 w-12 text-artha-600 mb-4" />
               <CardTitle className="text-xl">Instant Answers</CardTitle>
             </CardHeader>
             <CardContent>
@@ -166,14 +169,14 @@ export default function HomePage() {
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">Perfect for Every Financial Decision</h2>
             <p className="text-xl text-gray-600">
-              From beginners to experts, FinGPT helps everyone make better financial choices
+              From beginners to experts, ArthaGPT helps everyone make better financial choices
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
             <Card className="border-0 shadow-lg">
               <CardHeader>
-                <TrendingUp className="h-10 w-10 text-navy-600 mb-4" />
+                <TrendingUp className="h-10 w-10 text-indigo-600 mb-4" />
                 <CardTitle className="text-xl">Investment Planning</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
@@ -198,7 +201,7 @@ export default function HomePage() {
 
             <Card className="border-0 shadow-lg">
               <CardHeader>
-                <IndianRupee className="h-10 w-10 text-teal-600 mb-4" />
+                <IndianRupee className="h-10 w-10 text-artha-600 mb-4" />
                 <CardTitle className="text-xl">Market Analysis</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
@@ -223,7 +226,7 @@ export default function HomePage() {
 
             <Card className="border-0 shadow-lg">
               <CardHeader>
-                <Shield className="h-10 w-10 text-blue-600 mb-4" />
+                <Shield className="h-10 w-10 text-indigo-600 mb-4" />
                 <CardTitle className="text-xl">Insurance & Planning</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
@@ -254,7 +257,7 @@ export default function HomePage() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">What Can You Ask?</h2>
-            <p className="text-xl text-gray-600">Here are some examples of questions FinGPT can answer instantly</p>
+            <p className="text-xl text-gray-600">Here are some examples of questions ArthaGPT can answer instantly</p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
@@ -271,7 +274,7 @@ export default function HomePage() {
             ].map((question, index) => (
               <Card
                 key={index}
-                className="hover:shadow-lg transition-shadow cursor-pointer border-l-4 border-l-navy-600"
+                className="hover:shadow-lg transition-shadow cursor-pointer border-l-4 border-l-artha-500"
               >
                 <CardContent className="p-6">
                   <p className="text-gray-700 font-medium">"{question}"</p>
@@ -282,7 +285,7 @@ export default function HomePage() {
 
           <div className="text-center mt-12">
             <Link href="/ask">
-              <Button size="lg" className="text-lg px-8 py-4 h-auto bg-navy-800 hover:bg-navy-900">
+              <Button size="lg" className="text-lg px-8 py-4 h-auto bg-indigo-800 hover:bg-indigo-900">
                 Try These Questions
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
@@ -292,19 +295,19 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-gradient-to-r from-navy-800 to-navy-600 py-20">
+      <section className="bg-gradient-to-r from-indigo-800 to-indigo-600 py-20">
         <div className="container mx-auto px-4 text-center">
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-4xl font-bold text-white mb-6">Ready to Make Smarter Financial Decisions?</h2>
-            <p className="text-xl text-navy-100 mb-8">
-              Join thousands of investors who trust FinGPT for their financial planning. Start with our free tier and
+            <h2 className="text-4xl font-bold text-white mb-6">Ready to Decode Your Wealth?</h2>
+            <p className="text-xl text-indigo-100 mb-8">
+              Join thousands of investors who trust ArthaGPT for their financial planning. Start with our free tier and
               upgrade as you grow.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/ask">
                 <Button
                   size="lg"
-                  className="text-lg px-8 py-4 h-auto bg-white text-navy-800 hover:bg-gray-100 hover:text-navy-900"
+                  className="text-lg px-8 py-4 h-auto bg-artha-500 text-indigo-900 hover:bg-artha-400 hover:text-indigo-800"
                 >
                   Start Free Trial
                   <ArrowRight className="ml-2 h-5 w-5" />
@@ -312,7 +315,7 @@ export default function HomePage() {
               </Link>
               <Button
                 size="lg"
-                className="text-lg px-8 py-4 h-auto bg-white text-navy-800 hover:bg-gray-100 hover:text-navy-900 border-0"
+                className="text-lg px-8 py-4 h-auto bg-white text-indigo-800 hover:bg-gray-100 hover:text-indigo-900 border-0"
               >
                 Schedule Demo
               </Button>
@@ -327,11 +330,11 @@ export default function HomePage() {
           <div className="grid md:grid-cols-5 gap-8">
             <div className="md:col-span-2">
               <div className="flex items-center space-x-2 mb-6">
-                <Brain className="h-8 w-8" />
-                <span className="text-2xl font-bold">FinGPT</span>
+                <Coins className="h-8 w-8 text-artha-500" />
+                <span className="text-2xl font-bold">ArthaGPT</span>
               </div>
               <p className="text-gray-400 mb-6 max-w-md">
-                Your intelligent financial assistant powered by AI. Making complex financial decisions simple and
+                Your intelligent financial wisdom assistant powered by AI. Making complex financial decisions simple and
                 accessible for everyone in India.
               </p>
               <div className="flex space-x-4">
@@ -428,7 +431,7 @@ export default function HomePage() {
 
           <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-400 text-sm">
-              &copy; 2024 FinGPT. All rights reserved. Made with ❤️ for Indian investors.
+              &copy; 2024 ArthaGPT. All rights reserved. Made with ❤️ for Indian investors.
             </p>
             <div className="flex items-center space-x-4 mt-4 md:mt-0">
               <Badge variant="outline" className="text-gray-400 border-gray-600">

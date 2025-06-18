@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Brain, Mail, Lock, User, Chrome } from "lucide-react"
+import { Mail, Lock, User, Chrome, Coins } from "lucide-react"
 import { authHelpers } from "@/lib/supabase-client"
 
 interface AuthModalProps {
@@ -94,10 +94,10 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <div className="flex items-center justify-center space-x-2 mb-2">
-            <Brain className="h-8 w-8 text-orange-600" />
-            <CardTitle className="text-2xl">FinGPT</CardTitle>
+            <Coins className="h-8 w-8 text-artha-600" />
+            <CardTitle className="text-2xl">ArthaGPT</CardTitle>
           </div>
-          <CardDescription>Sign in to access your personalized financial AI assistant</CardDescription>
+          <CardDescription>Sign in to access your personalized financial wisdom assistant</CardDescription>
         </CardHeader>
 
         <CardContent>
@@ -149,7 +149,7 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
 
                 <Button
                   type="submit"
-                  className="w-full bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:shadow-outline"
+                  className="w-full bg-artha-500 hover:bg-artha-600 text-indigo-900 font-bold py-2 px-4 rounded focus:shadow-outline"
                   disabled={loading}
                 >
                   {loading ? "Signing in..." : "Sign In"}
@@ -208,7 +208,7 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
 
                 <Button
                   type="submit"
-                  className="w-full bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:shadow-outline"
+                  className="w-full bg-artha-500 hover:bg-artha-600 text-indigo-900 font-bold py-2 px-4 rounded focus:shadow-outline"
                   disabled={loading}
                 >
                   {loading ? "Creating account..." : "Create Account"}

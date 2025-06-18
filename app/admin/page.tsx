@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
-import { Brain, TrendingUp } from "lucide-react"
+import { Coins, TrendingUp } from "lucide-react"
 import Link from "next/link"
 import { FreeUpload } from "@/components/free-upload"
 import { DocumentStats as DocumentStatsComponent } from "@/components/document-stats"
@@ -129,14 +129,14 @@ export default function AdminPage() {
       <header className="border-b bg-white">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
-            <Brain className="h-8 w-8 text-navy-600" />
-            <h1 className="text-2xl font-bold text-gray-900">FinGPT Admin</h1>
+            <Coins className="h-8 w-8 text-artha-600" />
+            <h1 className="text-2xl font-bold text-indigo-800">ArthaGPT Admin</h1>
           </Link>
           <nav className="flex items-center space-x-4">
             <Link href="/ask">
               <Button variant="ghost">Ask Questions</Button>
             </Link>
-            <Button className="bg-navy-800 hover:bg-navy-900">Sign Out</Button>
+            <Button className="bg-indigo-800 hover:bg-indigo-900">Sign Out</Button>
           </nav>
         </div>
       </header>
