@@ -6,11 +6,11 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Badge } from "@/components/ui/badge"
-import { Mail, Lock, User, Chrome, Coins, Shield, CheckCircle, Star } from "lucide-react"
+import { User, Chrome, Shield, CheckCircle, Star, Mail, Lock } from "lucide-react"
 import { authHelpers } from "@/lib/supabase-client"
+import { Logo } from "@/components/logo"
 
 interface EnhancedAuthModalProps {
   isOpen: boolean
@@ -110,14 +110,8 @@ export function EnhancedAuthModal({ isOpen, onClose, onSuccess }: EnhancedAuthMo
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <Card className="w-full max-w-lg">
         <CardHeader className="text-center">
-          <div className="flex items-center justify-center space-x-2 mb-4">
-            <Coins className="h-10 w-10 text-artha-500" />
-            <div>
-              <CardTitle className="text-3xl">ArthaGPT</CardTitle>
-              <Badge variant="outline" className="mt-1">
-                Your Financial Wisdom Assistant
-              </Badge>
-            </div>
+          <div className="flex items-center justify-center mb-4">
+            <Logo variant="icon" size="lg" />
           </div>
           <CardDescription className="text-base">
             Join thousands of investors who trust ArthaGPT for personalized financial advice
@@ -194,7 +188,11 @@ export function EnhancedAuthModal({ isOpen, onClose, onSuccess }: EnhancedAuthMo
                   </Button>
                 </div>
 
-                <Button type="submit" className="w-full bg-indigo-800 hover:bg-indigo-900" disabled={loading}>
+                <Button
+                  type="submit"
+                  className="w-full bg-navy-800 hover:bg-navy-900 text-artha-400"
+                  disabled={loading}
+                >
                   {loading ? "Signing in..." : "Sign In"}
                 </Button>
               </form>
@@ -289,7 +287,7 @@ export function EnhancedAuthModal({ isOpen, onClose, onSuccess }: EnhancedAuthMo
 
                 <Button
                   type="submit"
-                  className="w-full bg-indigo-800 hover:bg-indigo-900"
+                  className="w-full bg-navy-800 hover:bg-navy-900 text-artha-400"
                   disabled={loading || !signUpData.acceptTerms}
                 >
                   {loading ? "Creating account..." : "Create Account"}
