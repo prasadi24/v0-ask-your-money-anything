@@ -18,12 +18,12 @@ import Link from "next/link"
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-amber-50">
+    <div className="min-h-screen bg-gradient-to-br from-navy-50 via-white to-blue-50">
       {/* Header */}
       <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <Brain className="h-8 w-8 text-orange-600" />
+            <Brain className="h-8 w-8 text-navy-800" />
             <h1 className="text-2xl font-bold text-gray-900">FinGPT</h1>
             <Badge variant="outline" className="ml-2">
               Beta
@@ -39,7 +39,7 @@ export default function HomePage() {
             <Link href="/admin">
               <Button variant="ghost">Admin</Button>
             </Link>
-            <Button>Get Started Free</Button>
+            <Button className="bg-navy-800 hover:bg-navy-900">Get Started Free</Button>
           </nav>
         </div>
       </header>
@@ -47,15 +47,13 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="container mx-auto px-4 py-20 text-center">
         <div className="max-w-4xl mx-auto">
-          <Badge variant="outline" className="mb-4">
+          <Badge variant="outline" className="mb-4 border-navy-200 text-navy-700">
             🚀 Now with AI-powered financial insights
           </Badge>
 
           <h1 className="text-6xl font-bold text-gray-900 mb-6 leading-tight">
             Ask Your Money{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-amber-600">
-              Anything
-            </span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-navy-800 to-navy-600">Anything</span>
           </h1>
 
           <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
@@ -65,12 +63,16 @@ export default function HomePage() {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
             <Link href="/ask">
-              <Button size="lg" className="text-lg px-8 py-4 h-auto">
+              <Button size="lg" className="text-lg px-8 py-4 h-auto bg-navy-800 hover:bg-navy-900">
                 Start Asking Questions
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
-            <Button size="lg" variant="outline" className="text-lg px-8 py-4 h-auto">
+            <Button
+              size="lg"
+              variant="outline"
+              className="text-lg px-8 py-4 h-auto border-navy-300 text-navy-700 hover:bg-navy-50"
+            >
               Watch Demo
             </Button>
           </div>
@@ -106,7 +108,7 @@ export default function HomePage() {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
             <CardHeader>
-              <Brain className="h-12 w-12 text-orange-600 mb-4" />
+              <Brain className="h-12 w-12 text-navy-600 mb-4" />
               <CardTitle className="text-xl">AI-Powered Analysis</CardTitle>
             </CardHeader>
             <CardContent>
@@ -119,7 +121,7 @@ export default function HomePage() {
 
           <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
             <CardHeader>
-              <Database className="h-12 w-12 text-amber-600 mb-4" />
+              <Database className="h-12 w-12 text-blue-600 mb-4" />
               <CardTitle className="text-xl">Real-Time Data</CardTitle>
             </CardHeader>
             <CardContent>
@@ -132,7 +134,7 @@ export default function HomePage() {
 
           <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
             <CardHeader>
-              <Shield className="h-12 w-12 text-purple-600 mb-4" />
+              <Shield className="h-12 w-12 text-teal-600 mb-4" />
               <CardTitle className="text-xl">Secure & Private</CardTitle>
             </CardHeader>
             <CardContent>
@@ -145,7 +147,7 @@ export default function HomePage() {
 
           <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
             <CardHeader>
-              <Zap className="h-12 w-12 text-orange-600 mb-4" />
+              <Zap className="h-12 w-12 text-navy-600 mb-4" />
               <CardTitle className="text-xl">Instant Answers</CardTitle>
             </CardHeader>
             <CardContent>
@@ -171,7 +173,7 @@ export default function HomePage() {
           <div className="grid md:grid-cols-3 gap-8">
             <Card className="border-0 shadow-lg">
               <CardHeader>
-                <TrendingUp className="h-10 w-10 text-blue-600 mb-4" />
+                <TrendingUp className="h-10 w-10 text-navy-600 mb-4" />
                 <CardTitle className="text-xl">Investment Planning</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
@@ -196,7 +198,7 @@ export default function HomePage() {
 
             <Card className="border-0 shadow-lg">
               <CardHeader>
-                <DollarSign className="h-10 w-10 text-green-600 mb-4" />
+                <DollarSign className="h-10 w-10 text-teal-600 mb-4" />
                 <CardTitle className="text-xl">Market Analysis</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
@@ -221,7 +223,7 @@ export default function HomePage() {
 
             <Card className="border-0 shadow-lg">
               <CardHeader>
-                <Shield className="h-10 w-10 text-purple-600 mb-4" />
+                <Shield className="h-10 w-10 text-blue-600 mb-4" />
                 <CardTitle className="text-xl">Insurance & Planning</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
@@ -269,7 +271,7 @@ export default function HomePage() {
             ].map((question, index) => (
               <Card
                 key={index}
-                className="hover:shadow-lg transition-shadow cursor-pointer border-l-4 border-l-orange-600"
+                className="hover:shadow-lg transition-shadow cursor-pointer border-l-4 border-l-navy-600"
               >
                 <CardContent className="p-6">
                   <p className="text-gray-700 font-medium">"{question}"</p>
@@ -280,7 +282,7 @@ export default function HomePage() {
 
           <div className="text-center mt-12">
             <Link href="/ask">
-              <Button size="lg" className="text-lg px-8 py-4 h-auto">
+              <Button size="lg" className="text-lg px-8 py-4 h-auto bg-navy-800 hover:bg-navy-900">
                 Try These Questions
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
@@ -290,24 +292,27 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-gradient-to-r from-orange-600 to-amber-600 py-20">
+      <section className="bg-gradient-to-r from-navy-800 to-navy-600 py-20">
         <div className="container mx-auto px-4 text-center">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-4xl font-bold text-white mb-6">Ready to Make Smarter Financial Decisions?</h2>
-            <p className="text-xl text-blue-100 mb-8">
+            <p className="text-xl text-navy-100 mb-8">
               Join thousands of investors who trust FinGPT for their financial planning. Start with our free tier and
               upgrade as you grow.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/ask">
-                <Button size="lg" variant="secondary" className="text-lg px-8 py-4 h-auto">
+                <Button
+                  size="lg"
+                  className="text-lg px-8 py-4 h-auto bg-white text-navy-800 hover:bg-gray-100 hover:text-navy-900"
+                >
                   Start Free Trial
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
               <Button
                 size="lg"
-                className="text-lg px-8 py-4 h-auto bg-white text-orange-600 hover:bg-gray-100 hover:text-orange-700 border-0"
+                className="text-lg px-8 py-4 h-auto bg-white text-navy-800 hover:bg-gray-100 hover:text-navy-900 border-0"
               >
                 Schedule Demo
               </Button>

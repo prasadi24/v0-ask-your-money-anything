@@ -129,14 +129,14 @@ export default function AdminPage() {
       <header className="border-b bg-white">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
-            <Brain className="h-8 w-8 text-blue-600" />
+            <Brain className="h-8 w-8 text-navy-600" />
             <h1 className="text-2xl font-bold text-gray-900">FinGPT Admin</h1>
           </Link>
           <nav className="flex items-center space-x-4">
             <Link href="/ask">
               <Button variant="ghost">Ask Questions</Button>
             </Link>
-            <Button>Sign Out</Button>
+            <Button className="bg-navy-800 hover:bg-navy-900">Sign Out</Button>
           </nav>
         </div>
       </header>
@@ -224,7 +224,7 @@ export default function AdminPage() {
                       "Tax implications of mutual funds",
                     ].map((question, index) => (
                       <div key={index} className="flex items-center space-x-2">
-                        <span className="text-sm font-medium text-blue-600">{index + 1}.</span>
+                        <span className="text-sm font-medium text-navy-600">{index + 1}.</span>
                         <span className="text-sm">{question}</span>
                       </div>
                     ))}
