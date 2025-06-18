@@ -2,6 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import "./globals.css"
 import { AuthProvider } from "@/components/auth/auth-provider"
+import { EnhancedNavigation } from "@/components/enhanced-navigation"
 
 export const metadata: Metadata = {
   title: "ArthaGPT - Decode Your Wealth | AI Financial Wisdom Assistant",
@@ -60,7 +61,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider>
+          <EnhancedNavigation />
+          {children}
+        </AuthProvider>
       </body>
     </html>
   )
