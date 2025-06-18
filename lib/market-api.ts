@@ -45,19 +45,34 @@ interface CommodityData {
 }
 
 export class MarketDataAPI {
-  private baseURL = "https://api.arthagpt.com/v1" // In production, use real API
-  private apiKey = process.env.MARKET_API_KEY || "demo_key"
+  private baseURL = "https://api.arthagpt.com/v1" // Demo endpoint
+  private apiKey = process.env.MARKET_API_KEY || "demo_key_no_real_api_needed"
   private cache = new Map<string, { data: any; timestamp: number }>()
   private cacheTimeout = 60000 // 1 minute cache
 
-  // Get live stock data
+  // All methods remain the same - they generate realistic mock data
+  // No real API calls are made in demo mode
+
   async getStockData(symbol: string): Promise<MarketData | null> {
     const cacheKey = `stock_${symbol}`
     const cached = this.getCachedData(cacheKey)
     if (cached) return cached
 
     try {
-      // In production, replace with actual NSE/BSE API calls
+      // For demo: Generate realistic mock data
+      // In production: Replace with real API call
+      if (this.apiKey === "demo_key_no_real_api_needed") {
+        const mockData = this.generateMockStockData(symbol)
+        this.setCachedData(cacheKey, mockData)
+        return mockData
+      }
+
+      // Real API call would go here:
+      // const response = await fetch(`${this.baseURL}/stocks/${symbol}`, {
+      //   headers: { 'Authorization': `Bearer ${this.apiKey}` }
+      // })
+      // const data = await response.json()
+
       const mockData = this.generateMockStockData(symbol)
       this.setCachedData(cacheKey, mockData)
       return mockData
