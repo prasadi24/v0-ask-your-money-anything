@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { Send, User, TrendingUp, AlertCircle, CheckCircle, Clock } from "lucide-react"
+import { Send, User, TrendingUp, AlertCircle, CheckCircle, Clock, MessageCircle } from "lucide-react"
 import { MarkdownRenderer } from "@/components/markdown-renderer"
 
 interface Message {
@@ -59,42 +59,18 @@ export default function AskPage() {
   }, [messages])
 
   const sampleQuestions = [
-    {
-      category: "📈 Investments",
-      questions: [
-        "How did Axis Bluechip Fund perform in the last 5 years?",
-        "Compare SIP vs lump sum for HDFC Top 100 Fund",
-        "Which SEBI-approved mutual funds have the lowest expense ratio?",
-        "Should I invest in small cap or large cap funds now?",
-      ],
-    },
-    {
-      category: "💰 Tax Planning",
-      questions: [
-        "What are the best Section 80C investment options?",
-        "How is LTCG tax calculated on mutual funds?",
-        "ELSS vs PPF - which is better for tax saving?",
-        "What are the tax implications of switching mutual funds?",
-      ],
-    },
-    {
-      category: "🏠 Real Estate",
-      questions: [
-        "Is it better to buy property or invest in REITs?",
-        "How to calculate home loan EMI and tax benefits?",
-        "What are the stamp duty rates in major Indian cities?",
-        "Should I prepay my home loan or invest in mutual funds?",
-      ],
-    },
-    {
-      category: "🥇 Gold & Commodities",
-      questions: [
-        "Gold ETF vs Sovereign Gold Bonds - which is better?",
-        "How much gold should be in my investment portfolio?",
-        "What are the tax implications of selling gold?",
-        "Is digital gold a good investment option?",
-      ],
-    },
+    "How did Axis Bluechip Fund perform in the last 5 years?",
+    "Compare SIP vs lump sum for HDFC Top 100 Fund",
+    "Which SEBI-approved mutual funds have the lowest expense ratio?",
+    "What are the best Section 80C investment options?",
+    "How is LTCG tax calculated on mutual funds?",
+    "ELSS vs PPF - which is better for tax saving?",
+    "Is it better to buy property or invest in REITs?",
+    "Gold ETF vs Sovereign Gold Bonds - which is better?",
+    "How much gold should be in my investment portfolio?",
+    "Is digital gold a good investment option?",
+    "Should I invest in small cap or large cap funds now?",
+    "What are the tax implications of switching mutual funds?",
   ]
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -178,157 +154,158 @@ export default function AskPage() {
   }
 
   return (
-    <div className="container mx-auto py-8 max-w-7xl px-4">
+    <div className="container mx-auto py-8 max-w-6xl px-4">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {/* Sample Questions Sidebar */}
-        <div className="lg:col-span-1 space-y-4">
+        <div className="lg:col-span-1">
           <Card className="sticky top-4">
             <CardHeader>
               <CardTitle className="text-lg flex items-center space-x-2">
-                <TrendingUp className="w-5 h-5 text-brand-gold" />
-                <span>Sample Questions</span>
+                <MessageCircle className="w-5 h-5 text-brand-gold" />
+                <span>Quick Questions</span>
               </CardTitle>
+              <p className="text-sm text-gray-600">Click to ask instantly</p>
             </CardHeader>
-            <CardContent className="space-y-4 max-h-[500px] overflow-y-auto">
-              {sampleQuestions.map((section, sectionIndex) => (
-                <div key={sectionIndex}>
-                  <h4 className="font-semibold text-sm mb-2 text-brand-navy">{section.category}</h4>
-                  <div className="space-y-2">
-                    {section.questions.map((question, questionIndex) => (
-                      <button
-                        key={questionIndex}
-                        onClick={() => handleSampleQuestion(question)}
-                        className="text-left text-sm text-gray-600 hover:text-brand-navy hover:bg-brand-gold/10 p-2 rounded-md transition-colors w-full border border-transparent hover:border-brand-gold/20"
-                        disabled={isLoading}
-                      >
-                        {question}
-                      </button>
-                    ))}
-                  </div>
+            <CardContent>
+              <ScrollArea className="h-[500px]">
+                <div className="space-y-2">
+                  {sampleQuestions.map((question, index) => (
+                    <button
+                      key={index}
+                      onClick={() => handleSampleQuestion(question)}
+                      className="text-left text-sm text-gray-700 hover:text-brand-navy hover:bg-brand-gold/10 p-3 rounded-lg transition-all w-full border border-transparent hover:border-brand-gold/30 hover:shadow-sm"
+                      disabled={isLoading}
+                    >
+                      <div className="flex items-start space-x-2">
+                        <div className="w-2 h-2 bg-brand-gold rounded-full mt-2 flex-shrink-0"></div>
+                        <span className="leading-relaxed">{question}</span>
+                      </div>
+                    </button>
+                  ))}
                 </div>
-              ))}
+              </ScrollArea>
             </CardContent>
           </Card>
-
-          {/* Recent Queries */}
-          {queryLogs.length > 0 && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Recent Queries</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ScrollArea className="h-[200px]">
-                  <div className="space-y-2">
-                    {queryLogs.slice(0, 10).map((log) => (
-                      <div key={log.id} className="text-xs p-2 bg-gray-50 rounded">
-                        <div className="font-medium truncate">{log.query}</div>
-                        <div className="text-gray-500 mt-1">
-                          {new Date(log.timestamp).toLocaleTimeString()} • {log.model}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </ScrollArea>
-              </CardContent>
-            </Card>
-          )}
         </div>
 
-        {/* Main Chat Area */}
+        {/* Main Chat Window */}
         <div className="lg:col-span-3">
-          <Card className="h-[700px] flex flex-col">
-            <CardHeader className="flex-shrink-0 border-b">
+          <Card className="h-[700px] flex flex-col shadow-lg">
+            {/* Chat Header */}
+            <CardHeader className="flex-shrink-0 border-b bg-gradient-to-r from-brand-navy to-brand-navy/90 text-white">
               <div className="flex items-center space-x-3">
                 <Logo variant="icon" size="md" />
                 <div className="flex-1">
-                  <CardTitle className="flex items-center space-x-2">
-                    <span className="text-brand-gold">Artha</span>
-                    <span className="text-brand-navy">GPT</span>
-                    <span className="text-gray-600 text-sm font-normal">- AI Financial Advisor</span>
+                  <CardTitle className="flex items-center space-x-2 text-white">
+                    <span>ArthaGPT</span>
+                    <span className="text-brand-gold text-sm font-normal">• AI Financial Advisor</span>
                   </CardTitle>
-                  <p className="text-sm text-gray-600 mt-1">
-                    Get personalized financial advice powered by AI • Data for demonstration purposes
+                  <p className="text-sm text-gray-200 mt-1">
+                    💬 Chat with AI • Get personalized financial advice • Powered by advanced AI
                   </p>
+                </div>
+                <div className="text-right">
+                  <div className="text-xs text-gray-300">Online</div>
+                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
                 </div>
               </div>
             </CardHeader>
 
-            <CardContent className="flex-1 flex flex-col p-0">
-              {/* Messages Area with Proper Scrolling */}
-              <ScrollArea className="flex-1 px-6 py-4">
-                <div className="space-y-6">
+            {/* Chat Messages Area */}
+            <CardContent className="flex-1 flex flex-col p-0 bg-gray-50">
+              <ScrollArea className="flex-1 px-4 py-6">
+                <div className="space-y-4 max-w-none">
                   {messages.map((message) => (
                     <div
                       key={message.id}
-                      className={`flex items-start space-x-3 ${
+                      className={`flex items-end space-x-2 ${
                         message.sender === "user" ? "flex-row-reverse space-x-reverse" : ""
                       }`}
                     >
-                      <Avatar className="w-10 h-10 flex-shrink-0">
+                      {/* Avatar */}
+                      <Avatar className="w-8 h-8 flex-shrink-0">
                         <AvatarFallback
                           className={
                             message.sender === "user" ? "bg-brand-navy text-white" : "bg-brand-gold text-brand-navy"
                           }
                         >
                           {message.sender === "user" ? (
-                            <User className="w-5 h-5" />
+                            <User className="w-4 h-4" />
                           ) : (
                             <Logo variant="icon" size="sm" showText={false} />
                           )}
                         </AvatarFallback>
                       </Avatar>
 
-                      <div className={`flex-1 ${message.sender === "user" ? "text-right" : ""}`}>
+                      {/* Message Bubble */}
+                      <div
+                        className={`flex flex-col max-w-[75%] ${message.sender === "user" ? "items-end" : "items-start"}`}
+                      >
                         <div
-                          className={`inline-block p-4 rounded-lg max-w-[90%] ${
+                          className={`px-4 py-3 rounded-2xl shadow-sm ${
                             message.sender === "user"
-                              ? "bg-brand-navy text-white rounded-br-sm"
-                              : "bg-white text-gray-900 border border-gray-200 shadow-sm rounded-bl-sm"
+                              ? "bg-brand-navy text-white rounded-br-md"
+                              : "bg-white text-gray-900 border border-gray-200 rounded-bl-md"
                           }`}
                         >
                           {message.sender === "ai" ? (
                             <MarkdownRenderer content={message.content} />
                           ) : (
-                            <div className="whitespace-pre-wrap">{message.content}</div>
+                            <div className="whitespace-pre-wrap text-sm leading-relaxed">{message.content}</div>
                           )}
                         </div>
 
-                        {/* AI Message Metadata */}
-                        {message.sender === "ai" && message.confidence !== undefined && (
-                          <div className="mt-2 flex items-center space-x-4 text-xs text-gray-500">
-                            <div className={`flex items-center space-x-1 ${getConfidenceColor(message.confidence)}`}>
-                              {getConfidenceIcon(message.confidence)}
-                              <span>Confidence: {message.confidence}%</span>
-                            </div>
-                            {message.sources && message.sources.length > 0 && (
-                              <div className="flex items-center space-x-1">
-                                <TrendingUp className="w-3 h-3" />
-                                <span>Sources: {message.sources.slice(0, 2).join(", ")}</span>
+                        {/* Message Metadata */}
+                        <div className="flex items-center space-x-2 mt-1 px-2">
+                          <span className="text-xs text-gray-500">
+                            {message.timestamp.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                          </span>
+
+                          {message.sender === "ai" && message.confidence !== undefined && (
+                            <>
+                              <span className="text-xs text-gray-400">•</span>
+                              <div
+                                className={`flex items-center space-x-1 text-xs ${getConfidenceColor(message.confidence)}`}
+                              >
+                                {getConfidenceIcon(message.confidence)}
+                                <span>{message.confidence}%</span>
                               </div>
-                            )}
-                            {message.category && (
-                              <Badge variant="outline" className="text-xs">
+                            </>
+                          )}
+
+                          {message.category && message.category !== "welcome" && (
+                            <>
+                              <span className="text-xs text-gray-400">•</span>
+                              <Badge variant="outline" className="text-xs h-4">
                                 {message.category}
                               </Badge>
-                            )}
+                            </>
+                          )}
+                        </div>
+
+                        {/* Sources */}
+                        {message.sender === "ai" && message.sources && message.sources.length > 0 && (
+                          <div className="mt-1 px-2">
+                            <div className="text-xs text-gray-500 flex items-center space-x-1">
+                              <TrendingUp className="w-3 h-3" />
+                              <span>Sources: {message.sources.slice(0, 2).join(", ")}</span>
+                            </div>
                           </div>
                         )}
-
-                        <div className="text-xs text-gray-400 mt-1">{message.timestamp.toLocaleTimeString()}</div>
                       </div>
                     </div>
                   ))}
 
-                  {/* Loading State with Logo */}
+                  {/* Loading State */}
                   {isLoading && (
-                    <div className="flex items-start space-x-3">
-                      <Avatar className="w-10 h-10">
+                    <div className="flex items-end space-x-2">
+                      <Avatar className="w-8 h-8">
                         <AvatarFallback className="bg-brand-gold text-brand-navy">
                           <Logo variant="icon" size="sm" showText={false} />
                         </AvatarFallback>
                       </Avatar>
-                      <div className="bg-white border border-gray-200 shadow-sm p-4 rounded-lg rounded-bl-sm">
-                        <div className="flex items-center space-x-3">
+                      <div className="bg-white border border-gray-200 px-4 py-3 rounded-2xl rounded-bl-md shadow-sm">
+                        <div className="flex items-center space-x-2">
                           <div className="flex space-x-1">
                             <div className="w-2 h-2 bg-brand-gold rounded-full animate-bounce"></div>
                             <div
@@ -340,7 +317,7 @@ export default function AskPage() {
                               style={{ animationDelay: "0.2s" }}
                             ></div>
                           </div>
-                          <span className="text-sm text-gray-600">ArthaGPT is analyzing your question...</span>
+                          <span className="text-sm text-gray-600">ArthaGPT is typing...</span>
                         </div>
                       </div>
                     </div>
@@ -349,20 +326,20 @@ export default function AskPage() {
                 <div ref={messagesEndRef} />
               </ScrollArea>
 
-              {/* Input Area */}
-              <div className="border-t p-4 bg-gray-50">
+              {/* Chat Input */}
+              <div className="border-t bg-white p-4">
                 <form onSubmit={handleSubmit} className="flex space-x-3">
                   <Input
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
-                    placeholder="Ask about investments, real estate, mutual funds, tax planning..."
+                    placeholder="Type your financial question here..."
                     disabled={isLoading}
-                    className="flex-1 bg-white"
+                    className="flex-1 rounded-full border-gray-300 focus:border-brand-gold focus:ring-brand-gold"
                   />
                   <Button
                     type="submit"
                     disabled={isLoading || !input.trim()}
-                    className="bg-brand-navy hover:bg-brand-navy/90 text-white px-6"
+                    className="bg-brand-navy hover:bg-brand-navy/90 text-white rounded-full px-6 shadow-lg hover:shadow-xl transition-all"
                   >
                     {isLoading ? (
                       <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
