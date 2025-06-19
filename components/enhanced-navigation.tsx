@@ -3,7 +3,19 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Activity, Brain, PieChart, TrendingUp, Calculator, Menu, X, Newspaper, AlertTriangle } from "lucide-react"
+import {
+  Activity,
+  Brain,
+  PieChart,
+  TrendingUp,
+  Calculator,
+  Menu,
+  X,
+  Newspaper,
+  AlertTriangle,
+  BookOpen,
+  Trophy,
+} from "lucide-react"
 import Link from "next/link"
 import { Logo } from "@/components/ui/logo"
 
@@ -57,6 +69,20 @@ export function EnhancedNavigation() {
       badge: "New",
     },
     {
+      href: "/learn",
+      label: "Learn",
+      icon: BookOpen,
+      description: "Interactive financial education",
+      badge: "Hot",
+    },
+    {
+      href: "/achievements",
+      label: "Achievements",
+      icon: Trophy,
+      description: "Track your progress",
+      badge: "New",
+    },
+    {
       href: "/financial-news",
       label: "News",
       icon: Newspaper,
@@ -101,7 +127,9 @@ export function EnhancedNavigation() {
                           ? "bg-green-50 text-green-700 border-green-200"
                           : item.badge === "Popular"
                             ? "bg-artha-50 text-artha-700 border-artha-200"
-                            : "bg-purple-50 text-purple-700 border-purple-200"
+                            : item.badge === "Hot"
+                              ? "bg-red-50 text-red-700 border-red-200"
+                              : "bg-purple-50 text-purple-700 border-purple-200"
                       }`}
                     >
                       {item.badge}
@@ -137,7 +165,9 @@ export function EnhancedNavigation() {
                                 ? "bg-green-50 text-green-700 border-green-200"
                                 : item.badge === "Popular"
                                   ? "bg-artha-50 text-artha-700 border-artha-200"
-                                  : "bg-purple-50 text-purple-700 border-purple-200"
+                                  : item.badge === "Hot"
+                                    ? "bg-red-50 text-red-700 border-red-200"
+                                    : "bg-purple-50 text-purple-700 border-purple-200"
                             }`}
                           >
                             {item.badge}
