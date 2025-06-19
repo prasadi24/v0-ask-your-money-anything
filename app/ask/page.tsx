@@ -138,6 +138,8 @@ export default function AskPage() {
         return "bg-purple-100 text-purple-800"
       case "tax":
         return "bg-orange-100 text-orange-800"
+      case "stocks":
+        return "bg-purple-100 text-purple-800"
       default:
         return "bg-gray-100 text-gray-800"
     }
