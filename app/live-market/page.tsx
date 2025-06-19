@@ -48,6 +48,7 @@ interface AIAnalysis {
 }
 
 export default function LiveMarketPage() {
+  const [mounted, setMounted] = useState(false)
   const [indices, setIndices] = useState<MarketData[]>([])
   const [stocks, setStocks] = useState<MarketData[]>([])
   const [commodities, setCommodities] = useState<CommodityData[]>([])
@@ -66,30 +67,38 @@ export default function LiveMarketPage() {
   const [selectedModel, setSelectedModel] = useState<"groq" | "openai">("groq")
   const [isListening, setIsListening] = useState(false)
 
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) {
+    return <div>Loading...</div>
+  }
+
   // Fetch real market data using Twelve Data API
   const fetchMarketData = async () => {
     try {
       setLoading(true)
 
       // Fetch indices
-      const indicesResponse = await fetch("/api/market/indices")
+      const indicesResponse = await fetch("/api/market-data?type=indices")
       const indicesData = await indicesResponse.json()
-      setIndices(indicesData.data || getMockIndices())
+      setIndices(indicesData.success ? indicesData.data : getMockIndices())
 
       // Fetch top stocks
-      const stocksResponse = await fetch("/api/market/stocks")
+      const stocksResponse = await fetch("/api/market-data?type=stocks")
       const stocksData = await stocksResponse.json()
-      setStocks(stocksData.data || getMockStocks())
+      setStocks(stocksData.success ? stocksData.data : getMockStocks())
 
       // Fetch commodities
-      const commoditiesResponse = await fetch("/api/market/commodities")
+      const commoditiesResponse = await fetch("/api/market-data?type=commodities")
       const commoditiesData = await commoditiesResponse.json()
-      setCommodities(commoditiesData.data || getMockCommodities())
+      setCommodities(commoditiesData.success ? commoditiesData.data : getMockCommodities())
 
       // Fetch currencies
-      const currenciesResponse = await fetch("/api/market/currencies")
+      const currenciesResponse = await fetch("/api/market-data?type=currencies")
       const currenciesData = await currenciesResponse.json()
-      setCurrencies(currenciesData.data || getMockCurrencies())
+      setCurrencies(currenciesData.success ? currenciesData.data : getMockCurrencies())
 
       setLastUpdated(new Date())
     } catch (error) {
