@@ -2,14 +2,14 @@
 
 import type React from "react"
 import { useState, useRef, useEffect } from "react"
-import { Logo } from "@/components/ui/logo"
+import { Logo } from "@/components/logo"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { Send, Bot, User, TrendingUp, AlertCircle, CheckCircle, Clock } from "lucide-react"
+import { Send, User, TrendingUp, AlertCircle, CheckCircle, Clock } from "lucide-react"
 import { MarkdownRenderer } from "@/components/markdown-renderer"
 
 interface Message {
@@ -37,7 +37,7 @@ export default function AskPage() {
     {
       id: "welcome",
       content:
-        "Hello! I'm ArthaGPT, your AI financial advisor. Ask me anything about investments, mutual funds, tax planning, or market analysis. I'm here to help with your financial questions! 💰",
+        "Hello! I'm **ArthaGPT**, your AI financial advisor. Ask me anything about:\n\n• 📈 **Investments** - Mutual funds, stocks, SIPs\n• 💰 **Tax Planning** - Section 80C, LTCG, ELSS\n• 🏠 **Real Estate** - Property vs REITs\n• 🥇 **Gold & Commodities** - ETFs, bonds, digital gold\n\nI'm here to help with your financial questions! 🇮🇳",
       sender: "ai",
       timestamp: new Date(),
       confidence: 100,
@@ -178,24 +178,28 @@ export default function AskPage() {
   }
 
   return (
-    <div className="container mx-auto py-8 max-w-6xl">
+    <div className="container mx-auto py-8 max-w-7xl px-4">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {/* Sample Questions Sidebar */}
         <div className="lg:col-span-1 space-y-4">
-          <Card>
+          <Card className="sticky top-4">
             <CardHeader>
-              <CardTitle className="text-lg">Sample Questions</CardTitle>
+              <CardTitle className="text-lg flex items-center space-x-2">
+                <TrendingUp className="w-5 h-5 text-brand-gold" />
+                <span>Sample Questions</span>
+              </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-4 max-h-[500px] overflow-y-auto">
               {sampleQuestions.map((section, sectionIndex) => (
                 <div key={sectionIndex}>
-                  <h4 className="font-semibold text-sm mb-2 text-navy-700">{section.category}</h4>
+                  <h4 className="font-semibold text-sm mb-2 text-brand-navy">{section.category}</h4>
                   <div className="space-y-2">
                     {section.questions.map((question, questionIndex) => (
                       <button
                         key={questionIndex}
                         onClick={() => handleSampleQuestion(question)}
-                        className="text-left text-sm text-gray-600 hover:text-navy-600 hover:bg-gray-50 p-2 rounded-md transition-colors w-full"
+                        className="text-left text-sm text-gray-600 hover:text-brand-navy hover:bg-brand-gold/10 p-2 rounded-md transition-colors w-full border border-transparent hover:border-brand-gold/20"
+                        disabled={isLoading}
                       >
                         {question}
                       </button>
@@ -213,16 +217,18 @@ export default function AskPage() {
                 <CardTitle className="text-lg">Recent Queries</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-2">
-                  {queryLogs.slice(0, 5).map((log) => (
-                    <div key={log.id} className="text-xs p-2 bg-gray-50 rounded">
-                      <div className="font-medium truncate">{log.query}</div>
-                      <div className="text-gray-500 mt-1">
-                        {new Date(log.timestamp).toLocaleTimeString()} • {log.model}
+                <ScrollArea className="h-[200px]">
+                  <div className="space-y-2">
+                    {queryLogs.slice(0, 10).map((log) => (
+                      <div key={log.id} className="text-xs p-2 bg-gray-50 rounded">
+                        <div className="font-medium truncate">{log.query}</div>
+                        <div className="text-gray-500 mt-1">
+                          {new Date(log.timestamp).toLocaleTimeString()} • {log.model}
+                        </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                </ScrollArea>
               </CardContent>
             </Card>
           )}
@@ -230,26 +236,27 @@ export default function AskPage() {
 
         {/* Main Chat Area */}
         <div className="lg:col-span-3">
-          <Card className="h-[600px] flex flex-col">
-            <CardHeader className="flex-shrink-0">
+          <Card className="h-[700px] flex flex-col">
+            <CardHeader className="flex-shrink-0 border-b">
               <div className="flex items-center space-x-3">
-                <Logo variant="icon" size="sm" />
-                <div>
+                <Logo variant="icon" size="md" />
+                <div className="flex-1">
                   <CardTitle className="flex items-center space-x-2">
-                    <Bot className="w-5 h-5 text-gold-600" />
-                    <span>Ask Your Financial Questions</span>
+                    <span className="text-brand-gold">Artha</span>
+                    <span className="text-brand-navy">GPT</span>
+                    <span className="text-gray-600 text-sm font-normal">- AI Financial Advisor</span>
                   </CardTitle>
                   <p className="text-sm text-gray-600 mt-1">
-                    Data provided for demonstration. In production, integrate with NSE/BSE APIs for real-time data.
+                    Get personalized financial advice powered by AI • Data for demonstration purposes
                   </p>
                 </div>
               </div>
             </CardHeader>
 
             <CardContent className="flex-1 flex flex-col p-0">
-              {/* Messages Area */}
-              <ScrollArea className="flex-1 p-6">
-                <div className="space-y-4">
+              {/* Messages Area with Proper Scrolling */}
+              <ScrollArea className="flex-1 px-6 py-4">
+                <div className="space-y-6">
                   {messages.map((message) => (
                     <div
                       key={message.id}
@@ -257,18 +264,26 @@ export default function AskPage() {
                         message.sender === "user" ? "flex-row-reverse space-x-reverse" : ""
                       }`}
                     >
-                      <Avatar className="w-8 h-8 flex-shrink-0">
-                        <AvatarFallback className={message.sender === "user" ? "bg-navy-100" : "bg-gold-100"}>
-                          {message.sender === "user" ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
+                      <Avatar className="w-10 h-10 flex-shrink-0">
+                        <AvatarFallback
+                          className={
+                            message.sender === "user" ? "bg-brand-navy text-white" : "bg-brand-gold text-brand-navy"
+                          }
+                        >
+                          {message.sender === "user" ? (
+                            <User className="w-5 h-5" />
+                          ) : (
+                            <Logo variant="icon" size="sm" showText={false} />
+                          )}
                         </AvatarFallback>
                       </Avatar>
 
                       <div className={`flex-1 ${message.sender === "user" ? "text-right" : ""}`}>
                         <div
-                          className={`inline-block p-4 rounded-lg max-w-[85%] ${
+                          className={`inline-block p-4 rounded-lg max-w-[90%] ${
                             message.sender === "user"
-                              ? "bg-navy-600 text-white"
-                              : "bg-white text-gray-900 border border-gray-200 shadow-sm"
+                              ? "bg-brand-navy text-white rounded-br-sm"
+                              : "bg-white text-gray-900 border border-gray-200 shadow-sm rounded-bl-sm"
                           }`}
                         >
                           {message.sender === "ai" ? (
@@ -304,16 +319,27 @@ export default function AskPage() {
                     </div>
                   ))}
 
+                  {/* Loading State with Logo */}
                   {isLoading && (
                     <div className="flex items-start space-x-3">
-                      <Avatar className="w-8 h-8">
-                        <AvatarFallback className="bg-gold-100">
-                          <Bot className="w-4 h-4" />
+                      <Avatar className="w-10 h-10">
+                        <AvatarFallback className="bg-brand-gold text-brand-navy">
+                          <Logo variant="icon" size="sm" showText={false} />
                         </AvatarFallback>
                       </Avatar>
-                      <div className="bg-white border border-gray-200 shadow-sm p-4 rounded-lg">
-                        <div className="flex items-center space-x-2">
-                          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-gold-600"></div>
+                      <div className="bg-white border border-gray-200 shadow-sm p-4 rounded-lg rounded-bl-sm">
+                        <div className="flex items-center space-x-3">
+                          <div className="flex space-x-1">
+                            <div className="w-2 h-2 bg-brand-gold rounded-full animate-bounce"></div>
+                            <div
+                              className="w-2 h-2 bg-brand-gold rounded-full animate-bounce"
+                              style={{ animationDelay: "0.1s" }}
+                            ></div>
+                            <div
+                              className="w-2 h-2 bg-brand-gold rounded-full animate-bounce"
+                              style={{ animationDelay: "0.2s" }}
+                            ></div>
+                          </div>
                           <span className="text-sm text-gray-600">ArthaGPT is analyzing your question...</span>
                         </div>
                       </div>
@@ -324,19 +350,31 @@ export default function AskPage() {
               </ScrollArea>
 
               {/* Input Area */}
-              <div className="border-t p-4">
-                <form onSubmit={handleSubmit} className="flex space-x-2">
+              <div className="border-t p-4 bg-gray-50">
+                <form onSubmit={handleSubmit} className="flex space-x-3">
                   <Input
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
-                    placeholder="Ask about investments, real estate, mutual funds..."
+                    placeholder="Ask about investments, real estate, mutual funds, tax planning..."
                     disabled={isLoading}
-                    className="flex-1"
+                    className="flex-1 bg-white"
                   />
-                  <Button type="submit" disabled={isLoading || !input.trim()}>
-                    <Send className="w-4 h-4" />
+                  <Button
+                    type="submit"
+                    disabled={isLoading || !input.trim()}
+                    className="bg-brand-navy hover:bg-brand-navy/90 text-white px-6"
+                  >
+                    {isLoading ? (
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    ) : (
+                      <Send className="w-4 h-4" />
+                    )}
                   </Button>
                 </form>
+                <p className="text-xs text-gray-500 mt-2 text-center">
+                  ArthaGPT provides educational information. Always consult qualified financial advisors for
+                  personalized advice.
+                </p>
               </div>
             </CardContent>
           </Card>
