@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState, useRef, useEffect } from "react"
 import { Logo } from "@/components/ui/logo"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -11,6 +10,7 @@ import { Badge } from "@/components/ui/badge"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Send, Bot, User, TrendingUp, AlertCircle, CheckCircle, Clock } from "lucide-react"
+import { MarkdownRenderer } from "@/components/markdown-renderer"
 
 interface Message {
   id: string
@@ -265,11 +265,17 @@ export default function AskPage() {
 
                       <div className={`flex-1 ${message.sender === "user" ? "text-right" : ""}`}>
                         <div
-                          className={`inline-block p-3 rounded-lg max-w-[80%] ${
-                            message.sender === "user" ? "bg-navy-600 text-white" : "bg-gray-100 text-gray-900 border"
+                          className={`inline-block p-4 rounded-lg max-w-[85%] ${
+                            message.sender === "user"
+                              ? "bg-navy-600 text-white"
+                              : "bg-white text-gray-900 border border-gray-200 shadow-sm"
                           }`}
                         >
-                          <div className="whitespace-pre-wrap">{message.content}</div>
+                          {message.sender === "ai" ? (
+                            <MarkdownRenderer content={message.content} />
+                          ) : (
+                            <div className="whitespace-pre-wrap">{message.content}</div>
+                          )}
                         </div>
 
                         {/* AI Message Metadata */}
@@ -305,10 +311,10 @@ export default function AskPage() {
                           <Bot className="w-4 h-4" />
                         </AvatarFallback>
                       </Avatar>
-                      <div className="bg-gray-100 p-3 rounded-lg">
+                      <div className="bg-white border border-gray-200 shadow-sm p-4 rounded-lg">
                         <div className="flex items-center space-x-2">
                           <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-gold-600"></div>
-                          <span className="text-sm text-gray-600">ArthaGPT is thinking...</span>
+                          <span className="text-sm text-gray-600">ArthaGPT is analyzing your question...</span>
                         </div>
                       </div>
                     </div>
